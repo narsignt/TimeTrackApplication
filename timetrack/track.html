@@ -88,7 +88,7 @@
 								</p>
 							</div>
 							<input ng-show="isadmin" type="button" id="aweekdetails" ng-click="monthfunction()" ng-disabled="adminfromdate>admintodate" value="Generate Activity Log" style="height: 32px;margin-top: -5px;width: 16%;"/>
-							<input type="button" id="exportData" ng-click="" ng-hide="true" value="Download data"style="margin-top: -15px; margin-right: -203px;"/><i class="glyphicon glyphicon-download-alt"></i>
+							<input type="button" id="adminexportData" ng-click="downloadData()" ng-hide="false" value="Download data"style="margin-top: -15px; margin-right: -203px;"/><i class="glyphicon glyphicon-download-alt"></i>
 						</div>
 						<div class="new" style="float:left;margin-left: 16px;">
 							<label for="month" ng-if = "!isadmin">Month</label>
@@ -139,7 +139,7 @@
 								<tr ng-repeat="week in key.data track by $index">
 									<td ng-repeat="day in week track by $index" class="time-tracker-table">
 										<div ng-if="day.flag"><b ng-bind="day.placeholder" style="height:-1px;"></b></div>
-										<div ng-if="!day.flag"><input class='hours_input' type="number" min="0" max="24"  ng-change="validHour(this)"   placeholder="{{day.placeholder}}" name="{{day.date}}"  value="{{day.time}}" ng-model="day.time"/></div>
+										<div ng-if="!day.flag"><input class='hours_input' type="text" min="0" max="24"  ng-change="validHour(this)" placeholder="{{day.placeholder}}" name="{{day.date}}"  value="{{day.time}}" ng-model="day.time" numbers-only/></div>
 									</td>
 									<td class="change-color"  ng-style="getSumOfWeekHours(week) === 0 && {'background-color':'yellow'} || getSumOfWeekHours(week) === 40 && {'background-color':'#fafafa'}   ||  getSumOfWeekHours(week) <= 40 && {'background-color':'yellow'}  || getSumOfWeekHours(week) > 40 && {'background-color':'red'}  ||  getSumOfWeekHours(week) === 39 && {'background-color':'yellow'}" >{{getSumOfWeekHours(week)}}</td>
 									<td>

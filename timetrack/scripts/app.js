@@ -595,8 +595,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     });
 
     $scope.validHour = function(data){
-        if(data.day.time < 0 || data.day.time > 24 || angular.isUndefined(data.day.time)){
-            data.day.time = 0;
+        if(data.day.time <= 0 || data.day.time > 24 || angular.isUndefined(data.day.time)){
+            // data.day.time = 0;
             alert("Hours per day cannot exceed 24");
 			//$scope.hoursmsg = "Hours must be less than 24"; 
 			//$scope.showDialog = false;
@@ -625,6 +625,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             weeks = [];
             month = [];
             weeklyInfo = [];
+            downloadWeeklyInfo=[];
             candidate={};
             candidates=[];
             var str = "";
@@ -635,6 +636,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
+                        downloadWeeklyInfo=details.weektrackdetails.weekdetailsarray;
+                        
                     }
                     for (var i = 0; i < weekTotal; i++) {
                         weekdate = TaskService.individualweek(i, date, $scope.isadmin, weeklyInfo, details.weektrackdetails.message);
@@ -657,88 +660,37 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     console.log(candidates);
                     $scope.month = candidates;
                     console.log($scope.month);
-                }else{
-                    //for all users write code.
-                    uname ="";
-                    email ="";
-                    allDetails = [];
-                    individualDetails = [];
+                }else
+                {
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
                     }
-                    var x={};
+                    var sortWeeklyInfo={};
                     for(i=0;i<weeklyInfo.length;i++)
                     {
                         var name=weeklyInfo[i].u_name;
-                        //console.log(x[fname]);
-                        if(typeof (x[name])=="undefined"){
-                            x[name]=[];
+                        if(typeof (sortWeeklyInfo[name])=="undefined"){
+                            sortWeeklyInfo[name]=[];
                         }
-
-                        x[name].push(weeklyInfo[i]);
+                        sortWeeklyInfo[name].push(weeklyInfo[i]);
                     }
-                    //console.log(x);
-                    angular.forEach(x,function(value,key){
-                        //console.log(key);
-                       //console.log(value);
-
-                       // for(i=0;i<key.length;i++){
+                    angular.forEach(sortWeeklyInfo,function(value,key){
                             if (details.weektrackdetails.message === "Records found successfully") {
                                 weeklyInfo = value;
                             }
                             for (var j = 0; j < weekTotal; j++) {
                                 weekdate = TaskService.individualweek(j, date, $scope.isadmin, weeklyInfo, details.weektrackdetails.message);
-                                console.log(weekdate);
                                 month.push(weekdate.week);
-                                console.log(month);
                                 date = moment(weekdate.date).add(1, 'days');
-                                console.log(date);
                                 weeklyInfo = weekdate.weeklyInfo;
-                                console.log(weeklyInfo);
                             }
                             candidate={"userName":key,"data":month};
                             month = [];
                             weeklyInfo = [];
-                        date=startDayOfFirstWeek;
-                        //}
-
-                        candidates.push(candidate);
-                        //console.log(month);
+                            date=startDayOfFirstWeek;
+                            candidates.push(candidate);
                     });
-                    //console.log(candidates);
-                    // var y={};
-                    // angular.forEach(x,function(value,key){
-                    //     y[key]=[];
-                    //     weekdate = TaskService.individualweek(i, date, $scope.isadmin, value, details.weektrackdetails.message);
-                    //     month.push(weekdate.week);
-                    //     date = moment(weekdate.date).add(1, 'days');
-                    //     weeklyInfo = weekdate.weeklyInfo;
-                    //     y[key].push(month);
-                    // });
-                    // console.log(y);
-                    // //console.log(x["Chinni K"]);
-                    // angular.forEach(x, function (value,key) {
-                    //     var WorkingDetails=[];
-                    //     for(i=0;i<value.length;i++){
-                    //         WorkingDetails.push(value[i].hours);
-                    //       //  console.log(WorkingDetails);
-                    //     }
-                    //     candidate={"userName":key,"data":WorkingDetails};
-                    //     console.log(key);
-                    //     console.log(WorkingDetails);
-                    //     candidates.push(candidate);
-                    //
-                    // });
-                    console.log(candidates);
-                    console.log($scope.month);
-                    $scope.month = candidates;
-
-                    if($scope.wuname =="alluser")
-                    {
-                        if (details.weektrackdetails.message === "Records found successfully") {
-                            weeklyInfo = details.weektrackdetails.weekdetailsarray;
-                        }
-                    }
+                   $scope.month = candidates;
                 }
             });
         }else if(angular.isUndefined($scope.wyear)){
@@ -1093,5 +1045,39 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     $scope.status2 = {
         opened: false
     };
+    $scope.downloadData = function(){
+        lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
+        startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
+        TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
+            if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
+                console.log(lastDayOfLastWeek);
+                console.log(startDayOfFirstWeek);
+                console.log($scope.wuname);
+                console.log(details.weektrackdetails.weekdetailsarray);
+                alasql('SELECT user_id,u_name,email_id,location, project_name, date,hours,updated_date INTO XLS("weektrack.xls",{headers:true}) FROM ?',[details.weektrackdetails.weekdetailsarray]);
+            }
+        });
+        //alasql('SELECT uid,uname,email_id,date,hours INTO XLS("weektrack.xls",{headers:true}) FROM  ?',[downloadDetailsArray]);
 
-}]);	
+    };
+}]);
+app.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attr, ngModelCtrl) {
+            function fromUser(text) {
+                if (text) {
+                    var transformedInput = text.replace(/[^0-9]/g, '');
+
+                    if (transformedInput !== text) {
+                        ngModelCtrl.$setViewValue(transformedInput);
+                        ngModelCtrl.$render();
+                    }
+                    return transformedInput;
+                }
+                return undefined;
+            }
+            ngModelCtrl.$parsers.push(fromUser);
+        }
+    };
+});

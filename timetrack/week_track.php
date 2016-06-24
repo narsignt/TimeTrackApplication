@@ -11,7 +11,7 @@ if (!$conn) {
     die("Connection failed: " . mysql_connect_error());
 	
 }else{
-    $weeklydata = "SELECT u.u_name, t.updated_date, t.user_id, t.hours, t.date, IFNULL( t.description,  '' ) description, t.updated_date, p.project_name, u.email_id, u.u_name
+    $weeklydata = "SELECT u.u_name, u.email_id, t.updated_date, t.user_id, t.hours, t.date, IFNULL( t.description,  '' ) description, t.updated_date, p.project_name, u.email_id, u.u_name
 FROM  `time_entry` t
 LEFT JOIN projects p ON t.`project_id` = p.project_id
 LEFT JOIN users u ON t.`user_id` = u.user_id

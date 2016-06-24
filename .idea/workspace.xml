@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="431cf11a-2dd7-4b40-b975-5fe5df569065" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrack/scripts/app.js" afterPath="$PROJECT_DIR$/timetrack/scripts/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrack/track.html" afterPath="$PROJECT_DIR$/timetrack/track.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrack/week_track.php" afterPath="$PROJECT_DIR$/timetrack/week_track.php" />
     </list>
     <ignored path="TimeTrackApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,6 +29,46 @@
       <file leaf-file-name="track.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/timetrack/track.html">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="267">
+              <caret line="123" column="54" selection-start-line="123" selection-start-column="54" selection-end-line="123" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/timetrack/scripts/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="697" column="32" selection-start-line="697" selection-start-column="32" selection-end-line="697" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="update_week.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/timetrack/update_week.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1440">
+              <caret line="96" column="47" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="47" />
+              <folding>
+                <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
+                <marker date="1466423498000" expanded="true" signature="825:929" ph="update time_... " />
+                <marker date="1466423498000" expanded="true" signature="1285:1358" ph="select user_... users" />
+                <marker date="1466423498000" expanded="true" signature="2139:2339" ph="SELECT t . *... time_entry" />
+                <marker date="1466423498000" expanded="true" signature="3847:4076" ph="SELECT t . *... time_entry" />
+                <marker date="1466423498000" expanded="true" signature="5316:5414" ph="insert into users... " />
+                <marker date="1466423498000" expanded="true" signature="5470:5543" ph="select user_... users" />
+                <marker date="1466423498000" expanded="true" signature="6061:6289" ph="SELECT t . *... time_entry" />
+                <marker date="1466423498000" expanded="true" signature="7501:7700" ph="SELECT t . *... time_entry" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="connection.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/timetrack/connection.php">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
@@ -35,7 +76,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="week_track.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/timetrack/week_track.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="18" column="27" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="27" />
+              <folding>
+                <marker date="1466586922000" expanded="true" signature="270:627" ph="SELECT u.u_n... time_entry" />
+                <marker date="1466586922000" expanded="true" signature="1066:1170" ph="SELECT * FRO... time_entry" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="timetrack.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/timetrack/timetrack.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-315">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1466513775000" expanded="true" signature="995:1058" ph="SELECT * FRO... projects" />
+                <marker date="1466513775000" expanded="true" signature="1197:1270" ph="select user_... users" />
+                <marker date="1466513775000" expanded="true" signature="3946:4173" ph="SELECT t . *... time_entry" />
+                <marker date="1466513775000" expanded="true" signature="6108:6308" ph="SELECT t . *... time_entry" />
+                <marker date="1466513775000" expanded="true" signature="7649:7747" ph="insert into users... " />
+                <marker date="1466513775000" expanded="true" signature="7832:7905" ph="select user_... users" />
+                <marker date="1466513775000" expanded="true" signature="9801:10028" ph="SELECT t . *... time_entry" />
+                <marker date="1466513775000" expanded="true" signature="11781:11980" ph="SELECT t . *... time_entry" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="30">
@@ -54,6 +127,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/timetrack/week_track.php" />
+        <option value="$PROJECT_DIR$/timetrack/track.html" />
+        <option value="$PROJECT_DIR$/timetrack/scripts/app.js" />
       </list>
     </option>
   </component>
@@ -65,8 +141,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="27" />
-    <option name="width" value="1234" />
+    <option name="x" value="93" />
+    <option name="y" value="22" />
+    <option name="width" value="1430" />
     <option name="height" value="808" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -128,6 +205,24 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeTrackApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeTrackApplication" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="timetrack" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -146,18 +241,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1466579463949</updated>
-      <workItem from="1466579465788" duration="97000" />
+      <workItem from="1466579465788" duration="9604000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97000" />
+    <option name="totallyTimeSpent" value="9604000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1234" height="808" extended-state="0" />
+    <frame x="93" y="22" width="1430" height="808" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959481" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21818182" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -184,18 +279,80 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/timetrack/track.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/timetrack.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-315">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1466513775000" expanded="true" signature="995:1058" ph="SELECT * FRO... projects" />
+            <marker date="1466513775000" expanded="true" signature="1197:1270" ph="select user_... users" />
+            <marker date="1466513775000" expanded="true" signature="3946:4173" ph="SELECT t . *... time_entry" />
+            <marker date="1466513775000" expanded="true" signature="6108:6308" ph="SELECT t . *... time_entry" />
+            <marker date="1466513775000" expanded="true" signature="7649:7747" ph="insert into users... " />
+            <marker date="1466513775000" expanded="true" signature="7832:7905" ph="select user_... users" />
+            <marker date="1466513775000" expanded="true" signature="9801:10028" ph="SELECT t . *... time_entry" />
+            <marker date="1466513775000" expanded="true" signature="11781:11980" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/week_track.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="27" />
+          <folding>
+            <marker date="1466586922000" expanded="true" signature="270:627" ph="SELECT u.u_n... time_entry" />
+            <marker date="1466586922000" expanded="true" signature="1066:1170" ph="SELECT * FRO... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/track.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="123" column="54" selection-start-line="123" selection-start-column="54" selection-end-line="123" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="697" column="32" selection-start-line="697" selection-start-column="32" selection-end-line="697" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/update_week.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="47" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="47" />
+          <folding>
+            <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="825:929" ph="update time_... " />
+            <marker date="1466423498000" expanded="true" signature="1285:1358" ph="select user_... users" />
+            <marker date="1466423498000" expanded="true" signature="2139:2339" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="3847:4076" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="5316:5414" ph="insert into users... " />
+            <marker date="1466423498000" expanded="true" signature="5470:5543" ph="select user_... users" />
+            <marker date="1466423498000" expanded="true" signature="6061:6289" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="7501:7700" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/connection.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
