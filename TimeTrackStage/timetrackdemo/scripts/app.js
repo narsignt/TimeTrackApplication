@@ -56,6 +56,7 @@ app.service('TaskService',function($http, $q, $log){
     var totaltimetrack = [];
     var projectDetails;
     this.list = function(timetrackdetails,userdetails){
+        debugger;
         if(userdetails[0].role == "user"){
             angular.forEach(timetrackdetails, function(timetrack){
                 var tempData = {
@@ -69,7 +70,9 @@ app.service('TaskService',function($http, $q, $log){
                     "email_id" : timetrack.email_id,
                     "u_name" : timetrack.u_name,
                     "user_id" : timetrack.user_id,
-                    "updated_date" : timetrack.updated_date
+                    "updated_date" : timetrack.updated_date,
+                    "empno":timetrack.empno,
+                    "country":timetrack.country
                 };
                 totaltimetrack.push(tempData);
             });
@@ -85,7 +88,7 @@ app.service('TaskService',function($http, $q, $log){
         var deferred = $q.defer();
         $http({
             method: 'POST',
-            url: '/timetrack/timetrackInsert.php',
+            url: '/timetrackdemo/timetrackInsert.php',
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
@@ -118,8 +121,8 @@ app.service('TaskService',function($http, $q, $log){
     }
 
 
-    this.timetrackInfo= function(uid,uname,UserName){
-        var url = "/timetrack/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName;
+    this.timetrackInfo= function(uid,uname,UserName,EmpNumber,Country){
+        var url = "/timetrackdemo/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&EmpNumber="+EmpNumber+"&Country="+Country;
         console.log("url "+url);
         var deferred = $q.defer();
         $http.get(url)
@@ -143,7 +146,7 @@ app.service('TaskService',function($http, $q, $log){
 		 var deferred = $q.defer();
 		  $http({
             method: 'POST',
-            url: '/timetrack/update_week.php',
+            url: '/timetrackdemo/update_week.php',
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
@@ -191,7 +194,7 @@ app.service('TaskService',function($http, $q, $log){
 		var deferred = $q.defer();
 		   $http({
             method: 'POST',
-            url: '/timetrack/week_track.php',
+            url: '/timetrackdemo/week_track.php',
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
@@ -231,7 +234,7 @@ app.service('TaskService',function($http, $q, $log){
         var deferred = $q.defer();
         $http({
             method: 'POST',
-            url: '/timetrack/projectinsert.php',
+            url: '/timetrackdemo/projectinsert.php',
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
@@ -261,7 +264,7 @@ app.service('TaskService',function($http, $q, $log){
         var deferred = $q.defer();
         $http({
             method: 'POST',
-            url: '/timetrack/projectupdate.php',
+            url: '/timetrackdemo/projectupdate.php',
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
@@ -290,7 +293,7 @@ app.service('TaskService',function($http, $q, $log){
         var deferred = $q.defer();
         $http({
             method: 'POST',
-            url: '/timetrack/delete_timetrack_record.php',
+            url: '/timetrackdemo/delete_timetrack_record.php',
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
@@ -495,40 +498,42 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     TaskService.deparam($location.absUrl()).then(function(details){
         $rootScope.globals={
             currentUser:{
-                uid:details.userdetails.uid,
+                uid:details.userdetails.user_id,
                 uname:details.userdetails.uname,
 				UserName:details.userdetails.UserName,
-                EmpNumber:details.userdetails.empNumber,
-                Country:details.userdetails.country
+                EmpNumber:details.userdetails.EmpNumber,
+                Country:details.userdetails.Country
             }
-		
         };
-        console.log($rootScope.currentUser.EmpNumber);
-        console.log($rootScope.currentUser.Country);
+        console.log($rootScope.globals.currentUser);
         currentdate = new Date();
+
         $scope.current_month = moment(currentdate).format("MMMM");
         $scope.current_year = moment(currentdate).format("YYYY");
 		//$scope.showDialog = true;
 
         // Create Base64 Object
         var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
-        $scope.uid = Base64.decode(details.userdetails.uid);
+        $scope.uid = Base64.decode(details.userdetails.user_id);
         $scope.uname = Base64.decode(details.userdetails.uname);
 		$scope.UserName = Base64.decode(details.userdetails.UserName);
 
         //$scope.uid = details.userdetails.uid;
         //$scope.uname = details.userdetails.uname;
-        TaskService.timetrackInfo(details.userdetails.uid,details.userdetails.uname,details.userdetails.UserName).then(function(details){
+        
+        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.EmpNumber,details.userdetails.Country).then(function(responseDetails){
+            console.log(responseDetails);
 		   //$scope.newtrack.projectDetails = details.projectdetails
-            if(details.totalresponse.error == "undefined"){
+            if(responseDetails.totalresponse.error == "undefined"){
                 $window.location.href = 'https://italent.jiveon.com/welcome';
             }else{
-                $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
-                $scope.userdetails = TaskService.list(details.timetrackdetails,details.userdetails);
+                debugger;
+                $scope.newtrack.projectDetails = TaskService.projectList(responseDetails.projectdetails);
+                $scope.userdetails = TaskService.list(responseDetails.timetrackdetails,responseDetails.userdetails);
 				$scope.entire_data = $scope.userdetails;
-                if(details.userdetails[0].role == "user"){
+                if(responseDetails.userdetails[0].role == "user"){
                     $scope.isadmin = false;
-					$scope.current_username = details.userdetails[0].u_name+"!";
+					$scope.current_username = responseDetails.userdetails[0].u_name+"!";
 					//$scope.current_usermail = details.userdetails[0].email_id;
                     //weekly data for user
                     currentdate = new Date();
@@ -554,11 +559,12 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     $scope.lastDayOfLastWeek = moment(lastDayOfLastWeek).format("YYYY-MM-DD");
                     $scope.weekTotal = weekTotal;
                     TaskService.getMonthlyTrackInfo($scope.startDayOfFirstWeek, $scope.lastDayOfLastWeek, $scope.uid).then(function (details) {
-                        if (details.weektrackdetails.message === "Records found successfully") {
-                            weeklyInfo = details.weektrackdetails.weekdetailsarray;
+                        console.log(responseDetails.weektrackdetails.weekdetailsarray);
+                        if (responseDetails.weektrackdetails.message === "Records found successfully") {
+                            weeklyInfo = responseDetails.weektrackdetails.weekdetailsarray;
                         }
                         for (var i = 0; i < weekTotal; i++) {
-                            weekdate = TaskService.individualweek(i,date,$scope.isadmin,weeklyInfo,details.weektrackdetails.message);
+                            weekdate = TaskService.individualweek(i,date,$scope.isadmin,weeklyInfo,responseDetails.weektrackdetails.message);
                             month.push(weekdate.week);
                             date = moment(weekdate.date).add(1, 'days');;
                             weeklyInfo = weekdate.weeklyInfo;
@@ -571,9 +577,9 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                      document.getElementById("deleteproject").style.display = "none";*/
                 }else{
                     $scope.isadmin = true;
-					$scope.current_usermail = details.userdetails.email_id;
+					$scope.current_usermail = responseDetails.userdetails.email_id;
 
-                    $scope.usernames = details.userdetails;
+                    $scope.usernames = responseDetails.userdetails;
                     var alluser ={
                         "user_id" : "alluser",
                         "u_name" : "All Users"
@@ -637,6 +643,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
                 //console.log(details);
                 debugger;
+
                 if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;

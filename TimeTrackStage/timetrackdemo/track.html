@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>iTalent Corporation</title>
+	<script src="scripts/angular1.5.js"></script>
+	<script src="scripts/dirPagination.js"></script>
+	<script language="javascript" src="scripts/angular-animate.js"></script>
+	<script language="javascript" src="scripts/ui-bootstrap-tpls-0.14.3.js"></script>
+	<script language="JavaScript" src="scripts/angular-ui-router.min.js"></script>
+	<script src="scripts/angular-cookies.min.js"></script>
+	<script src="scripts/alasql.min.js"></script>
+	<script src="scripts/jquery-1.9.1.js"></script>
+	<script src="scripts/ng-table.min.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<!-- load momentJS (required for angular-moment) -->
+	<script src="scripts/moment.min.js"></script>
+	<!-- load angular-moment -->
+	<script src="scripts/angular-moment.min.js"></script>
+	<script src="scripts/angular-confirm.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+<body>
+<div class="container">
+    <ul id="myTab" class="nav nav-tabs tab">
+        <li class="active"><a data-toggle="tab" href="#week" class="tab_color" onclick="weekFunction()">Week</a></li>
+        <li><a data-toggle="tab" href="#day" class="tab_color" onclick="dayFunction()">Day</a></li>
+    </ul>
+	<div id = "myTabContent" class="tab-content"> <!--tab content start -->
+
+		<div class="main" ng-app="myapp" ng-controller="mycontroller"><!--main start -->
+
+			<div class="header_block">
+				<div class="header_resize">
+					<div class="clr"></div>
+				</div>
+			</div>
+			<div class="clr"></div>
+			<div  class="content"> <!-- content start -->
+			<!--Second Tab Structural layer -->
+				<div id="week" class="tab-pane fade  in active"> <!-- week start -->
+					
+					<div class="header_block">
+						<div class="header_resize">
+							<div class="clr"></div>
+						</div>
+					</div>
+					<fieldset style="padding:15px;border:1px solid #D9D9D9;">
+						<legend style="width:27%;border-bottom:0;">Enter Your Weekly Hours</legend>
+						<div class="new">
+
+							<label ng-show="isadmin" for="UserName" style="margin-bottom: -28px;">User Name</label>
+							<form id="form" name="form" novalidate>
+							<div ng-show="isadmin">
+								<select style="margin-top: 30px; width: 21%;height: 31px;" class="form-control input-block-level it-opts" id="username" name="username" ng-model="wuname"  ng-options="username.user_id as username.u_name for username in usernames">
+									<option value="">Select</option>
+									<option ng-repeat="username in usernames track by $index "  value="{{username.u_name}}">{{username.u_name}}</option>
+								</select>
+							</div>
+							
+							</form>
+						</div>
+						<div ng-if = "!isadmin" class="new" style="float:left;">
+							<label for="year" ng-if = "!isadmin">Year</label>
+							<label style="" ng-if = "!isadmin" ng-bind="current_year"></label>
+						</div>
+						<div class="time-tracker-weekdetails" style="margin-right:20px;">
+							<div ng-show="isadmin" class="timetracker-calendar" style="margin-top: -4px;">
+								<p style="margin-top: -2px;color: #3778c7;font-size: 15px;">From Date</p>
+								<p class="input-group">
+									<input style="height: 31px;" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="adminfromdate" is-open="status1.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+									<span class="input-group-btn">
+										<button style="margin-top: 0px;height: 31px;" type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</p>
+							</div>
+							<div ng-show="isadmin" class="timetracker-calendar">
+								<p style="margin-top: -6px;color: #3778c7;font-size: 15px;">To Date</p>
+								<p class="input-group">
+									<input style="height: 31px;" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="admintodate" is-open="status2.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+									<span class="input-group-btn">
+										<button style="margin-top: 0px;height: 31px;" type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</p>
+							</div>
+							<input ng-show="isadmin" type="button" id="aweekdetails" ng-click="monthfunction()" ng-disabled="adminfromdate>admintodate" value="Generate Activity Log" style="height: 32px;margin-top: -5px;width: 16%;"/>
+							<input type="button" id="adminexportData" ng-click="downloadData()" ng-hide="false" value="Download data"style="margin-top: -15px; margin-right: -203px;"/><i class="glyphicon glyphicon-download-alt"></i>
+						</div>
+						<div class="new" style="float:left;margin-left: 16px;">
+							<label for="month" ng-if = "!isadmin">Month</label>
+							<!--<select style="height:31px;width: 121px;" ng-show="isadmin" class="month form-control it-opts" id="entry_15" name="month" ng-model="wmonth" ng-change="monthfunction()">
+								<option value="">Select</option>
+								<option value="1">January</option>
+								<option value="2">February</option>
+								<option value="3">March</option>
+								<option value="4">April</option>
+								<option value="5">May</option>
+								<option value="6">June</option>
+								<option value="7">July</option>
+								<option value="8">August</option>
+								<option value="9">September</option>
+								<option value="10">October</option>
+								<option value="11">November</option>
+								<option value="12">December</option>
+							</select>-->
+							<label ng-if = "!isadmin" ng-bind="current_month"></label>
+						</div>
+						<div class="new" style="float:left">
+						<label ng-if = "!isadmin" for="UserName" style="margin-top: -27px;margin-left: 600px;font-weight: 600;">Welcome</label>
+						<label ng-if = "!isadmin" ng-bind="current_username" style="margin-top:-30px;margin-left: 667px;font-weight: 600;"></label>
+						</div>
+						<div style="margin-top: 40px;"><span class="update"  ng-if="isWeekUpdated" ng-bind="weekmsg"></span></div>
+						<div class="clr"></div>
+						<div id="year"></div>
+						<div id="first">  <!--first div start -->
+							<table ng-repeat="key in month" style="margin-top: 10px;" id="weekTrack" class="table table-striped table-hover">
+
+								<!--second table first-->
+								<thead>
+								<tr><th>{{key.userName}}</th></tr>
+								<tr>
+									<th>Week</th>
+									<th>Sunday</th>
+									<th>Monday</th>
+									<th>Tuesday</th>
+									<th>Wednesday</th>
+									<th>Thursday</th>
+									<th>Friday</th>
+									<th>Saturday</th>
+									<th>Total</th>
+									<th>Save</th>
+								</tr>
+								</thead>
+								<tbody id="months">
+								<tr ng-repeat="week in key.data track by $index">
+									<td ng-repeat="day in week track by $index" class="time-tracker-table">
+										<div ng-if="day.flag"><b ng-bind="day.placeholder" style="height:-1px;"></b></div>
+										<div ng-if="!day.flag"><input class='hours_input' type="text" min="0" max="24"  ng-change="validHour(this)" placeholder="{{day.placeholder}}" name="{{day.date}}"  value="{{day.time}}" ng-model="day.time" numbers-only/></div>
+									</td>
+									<td class="change-color"  ng-style="getSumOfWeekHours(week) === 0 && {'background-color':'yellow'} || getSumOfWeekHours(week) === 40 && {'background-color':'#fafafa'}   ||  getSumOfWeekHours(week) <= 40 && {'background-color':'yellow'}  || getSumOfWeekHours(week) > 40 && {'background-color':'red'}  ||  getSumOfWeekHours(week) === 39 && {'background-color':'yellow'}" >{{getSumOfWeekHours(week)}}</td>
+									<td>
+										<button type="button" title="Save" class="savefield" ng-click="updateWeek(week)" data-toggle="modal" data-target="#saveWeekModal"><span class="glyphicon glyphicon-saved"></span></button>
+										<div class="modal fade" id="saveWeekModal" role="dialog" ng-show="showWeekDialog">
+											<div class="modal-dialog">
+												<div class="modal-content" style="width: 48%;height: 107px;margin: 0 auto;">
+													<p style="margin-top: 21px; margin-left: 10px;" ng-bind="weekmsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
+													<div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
+														<button type="button" class="btn btn-default"  data-dismiss="modal" style="margin-top: -10px;" data-dismiss="modal">Ok</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								</tbody>
+							</table> 
+						</div>
+					</fieldset>
+				</div> <!-- week end -->
+				<div id="day" class="tab-pane fade"> <!--day start -->
+					<div class="mainbar"><!-- mainbar start -->
+						<div class="article" style="margin-top:-22px"><!-- article start -->
+							<div class="clr"></div>
+
+							<fieldset style="padding:15px;border:1px solid #D9D9D9;">
+								<legend style="width:28%;border-bottom:0;">Enter Daily Task Updates</legend>
+								<input type="hidden" ng-model="uid">
+								<input type="hidden" ng-model="track_id">
+								<input type="hidden" ng-model="uname">
+								<input type="hidden" ng-model="startDayOfFirstWeek">
+								<input type="hidden" ng-model="lastDayOfLastWeek">
+								<input type="hidden" ng-model="weekTotal">
+
+								<form  method="post" id="myform" name="myform" novalidate> <!-- form start -->
+									<ol>
+										<li style="margin-top: 8px;">
+											<label for="projectName">Project Name <sup class="it-indicates">*</sup></label>
+											<select style="height: 34px;margin-top: 0px;" class="form-control input-block-level" id="project_name" name="project_name" ng-model="newtrack.projectinfo" ng-options="obj.project_id as obj.project_name for obj in newtrack.projectDetails" required >
+												<option value="">Select</option>
+											</select>
+										<li style="float: left; position: relative;top: -30px;">
+											<label for="date">Date<sup class="it-indicates">*</sup></label>
+											<input class="form-control it-date" type="text" name="date" placeholder="yyyy-mm-dd"id="date" uib-datepicker-popup="{{dateformat}}" ng-model="newtrack.date" is-open="showdp" max-date="dtmax" />
+                              <span class="input-group-btn" style="top: -2px;display: inline-block;left: -8px;">
+                              <button type="button" class="btn btn-default"  ng-click="showcalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+										</li>
+										<li style="position: relative;top: -30px;">
+											<label for="timings">No.of Hours<sup class="it-indicates">*</sup></label>
+											<div style="float:left;width: 11%;">
+												<select style="height: 34px;margin-top: 0px;" class="form-control it-opts" id="hours" name="hours" ng-model="newtrack.hours" style="max-height:32px;" required>
+													<option value="">H</option>
+													<option>0</option>
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+													<option>6</option>
+													<option>7</option>
+													<option>8</option>
+													<option>9</option>
+													<option>10</option>
+													<option>11</option>
+													<option>12</option>
+													<option>13</option>
+													<option>14</option>
+													<option>15</option>
+													<option>16</option>
+													<option>17</option>
+													<option>18</option>
+													<option>19</option>
+													<option>20</option>
+													<option>21</option>
+													<option>22</option>
+													<option>23</option>
+													<option>24</option>
+												</select>
+											</div>
+											<!--<div style="float:left">
+												<select style="height: 34px;margin-top: 0px;" class="form-control it-opts" id="minutes" name="minutes" ng-model="newtrack.minutes">
+													<option value="">MM</option>
+													<option>00</option>
+													<option>05</option>
+													<option>10</option>
+													<option>15</option>
+													<option>20</option>
+													<option>25</option>
+													<option>30</option>
+													<option>35</option>
+													<option>40</option>
+													<option>45</option>
+													<option>50</option>
+													<option>55</option>
+												</select>
+											</div>-->
+										</li>
+										<div style="clear:both"></div>
+										<div ng-show="isadmin" style=" margin-top:-19px;float:left;">
+											<input class="track-project" type="button" id="addproject" ng-click="addproject()" value="Add Project" />
+											<div  id="addprojectdiv" ng-show = "isprojecttext">
+												<input class="form-control" type="text" placeholder="Enter Project Name"  ng-minlength="1"  no-special-char ng-model="projectname" style="float:left;width:200px" />
+												<input class="track-submit" type="submit" id="projectsubmit" ng-click="projectsubmit()" style="float:left;" value="Save"/>
+											</div>
+											<!--<input class="track-delete"  type="button" id="deleteproject"   value="Delete Project" ng-click="deleteproject()"/>-->
+											<!--<div class="modal fade" id="deletetitle" role="dialog" ng-if="deleteDialog">
+												<div class="modal-dialog">
+													<div class="modal-content" style="width: 51%;height: 107px; margin: 0 auto;">
+														<p style="margin-top: 21px;margin-left:6px;color:black;" ng-bind="deletemsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
+														<div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
+															<button type="button" class="btn btn-default "ng-click="deleteproject()" style="margin-top: -7px;"  data-dismiss="modal">Ok</button>
+														</div>
+													</div>
+												</div>
+											</div>-->
+										</div>
+										<div style="clear:both"></div>
+										</li>
+										<li class="time-tracker-desc">
+											<label for="description">Task Description<sup class="it-indicates">*</sup></label>
+											<textarea class="form-control" placeholder="Please enter your task details..." id="description" name="description" rows="2" cols="50"ng-model="newtrack.description" required></textarea>
+											<div style="clear:both"></div>
+										</li>
+										<li class="time-tracker-btns">
+											<input type="hidden" ng-model="newtrack.id">
+											<input class="it-btns" type="submit" value="Submit" ng-click="submit()" ng-disabled="myform.$invalid" data-toggle="modal" data-target="#submitdaytask"style="width:87px;float: left;margin-left: 22px;margin-right: 5px;">
+											<!--<div class="modal fade" id="submitdaytask" role="dialog" ng-show="showDialog">
+											<div class="modal-dialog">
+												<div class="modal-content" style="width: 48%;height: 107px;margin: 0 auto;">
+													<p style="margin-top: 21px; margin-left: 10px;" ng-bind="weekmsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
+													<div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
+														<button type="button" class="btn btn-default"  data-dismiss="modal" style="margin-top: -10px;" data-dismiss="modal">Ok</button>
+													</div>
+												</div>
+											</div>
+										</div>-->
+											<input class="it-btns" type="Reset" ng-click="reset()"style="width: 94px;float: left;"/>
+											<div class="clr"></div>
+										</li>
+									</ol>
+								</form> <!--form close -->
+							</fieldset>
+						</div> <!--article end -->
+					</div> <!--mainbar end -->
+					<div class="mainbar"> <!-- mainbar start -->
+						<form  novalidate>
+							<fieldset style="padding:19px;border:1px solid #D9D9D9;margin:15px;">
+								<legend style="width:23%;border-bottom:0">List Of Task Updates</legend>
+								<div class="article" id="exportable" style="margin-bottom: -23px;">
+									<!-- article start -->
+									<!--<h2>List Of Task Updates</h2>-->
+									<!--<input type="button" ng-click="refreshdata()"/>-->
+									<div class="form-group time-tracker-details"style="margin-top:-32px;">
+										<div class="timetracker-calendar">
+											<h4>From Date</h4>
+											<p class="input-group">
+												 <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="status1.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+												 <span class="input-group-btn" style="top: 4px;">
+													 <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+												 </span>
+											</p>
+										</div>
+										<div class="timetracker-calendar">
+											<h4>To Date</h4>
+											<p class="input-group">
+												<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="status2.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+												<span class="input-group-btn" style="top: 4px;">
+													<button type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+												</span>
+											</p>
+										</div>
+										<input type="hidden" ng-model="entire_data">
+										<input type="button" id="userdetails" ng-click="getBtDates(dt1,dt2,entire_data)"data-toggle="modal" ng-disabled="dt1>dt2" data-target="#bwdates"  value="Go" style="height: 33px;"/>
+										<input type="button" id="exportData" ng-click="exportData(userdetails)" ng-disabled="userdetails.length<=0 || dt1>dt2" value="Download data"style="height: 33px;"/><i class="glyphicon glyphicon-download-alt"></i>
+										<div style="position: relative;top: 36px;width: 32%;float: right;left:7px">
+											<input type="text" ng-model="search" class="form-control" style="position: relative;margin-top: 7px;" placeholder="Search"ng-change="searchTags()"/>
+											<i class="glyphicon glyphicon-search searchIcon" ></i>
+											<div style="clear:both"></div>
+										</div>
+									</div>
+									<div style="clear:both"></div>
+									<table class="table table-striped table-hover" id="exportable" ng-table="tableParams">
+										<thead>
+										<tr>
+											<th ng-click="sort('date')">Date
+												<span class="glyphicon sort-icon" ng-show="sortKey=='date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th ng-click="sort('project_name')">Project Name
+												<span class="glyphicon sort-icon" ng-show="sortKey=='project_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th ng-click="sort('hours')">Hours
+												<span class="glyphicon sort-icon" ng-show="sortKey=='hours'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<!--<th ng-click="sort('minutes')">Minutes
+												<span class="glyphicon sort-icon" ng-show="sortKey=='minutes'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>-->
+											<th ng-if="isadmin" ng-click="sort('employee_name')">User Name
+												<span class="glyphicon sort-icon" ng-show="sortKey=='employee_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th style="display:none">Email Id</th>
+											<th ng-click="sort('description')">Description
+												<span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th class="edit"></th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr dir-paginate="user in userdetails|orderBy:sortKey:reverse|filter:search|itemsPerPage:7">
+											<td>{{user.date}}</td>
+											<td>{{user.project_name}}</td>
+											<td>{{user.hours}}</td>
+											<!--<td ng-show='user.minutes !== undefined'>{{user.minutes}}</td>-->
+											<td ng-if="isadmin">{{user.u_name}}</td>
+											<td style="display:none">{{user.email_id}}</td>
+											<td>{{user.description}}</td>
+											<td>
+												<center>
+													<button type="button" title="Edit" class="editfield" ng-click="edit(user)"><span class="glyphicon glyphicon-edit"></span></button>
+													<button type="button" title="Delete" class="deletefield" data-toggle="modal" ng-click="delete(user)"><span class="glyphicon glyphicon-trash"></span></button>
+
+													<!--<div class="modal fade" id="myModal" role="dialog" >
+														<div class="modal-dialog">
+															<div class="modal-content" style="width: 48%;height: 107px; color:black;">
+																<p style="margin-top: 21px;"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>Are you sure do you want to delete this record?</span></p>
+																<div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
+																	<button type="button" class="btn btn-default " style="margin-top: -7px;" ng-click="delete(user)"  data-dismiss="modal">Yes</button>
+																	<button type="button" class="btn btn-default " style="margin-top: -10px;" data-dismiss="modal">No</button>
+																</div>
+															</div>
+														</div>
+													</div>-->
+												</center>
+											</td>
+										</tr>
+										</tbody>
+										<!--<tfoot>
+                                           <tr>
+                                               <td></td>
+                                           <td></td>
+                                               <td>{{userdetails|sumByKey:'hours'}}</td>
+                                               <td>{{userdetails|sumByKey:'minutes'}}</td>
+                                           <td ng-if="isadmin"></td>
+                                           <td></td>
+                                           </tr>
+                                           </tfoot>-->
+									</table>
+									<dir-pagination-controls
+											max-size="7"
+											direction-links="true"
+											boundary-links="true" >
+									</dir-pagination-controls>
+								</div> <!-- article end -->
+							</fieldset>
+						</form>
+					</div> <!-- mainbar end -->
+					<div class="clr"></div>
+
+				</div> <!--day end -->
+			</div> <!-- content end-->
+		</div> <!-- main end-->
+	</div> <!--tab content end -->
+</div>
+<script>
+	/*function dayFunction() {
+		var y= document.getElementById("week");
+		var x= document.getElementById("day");
+		var z= document.getElementById("report");
+		x.style.display= "block";
+		y.style.display= "none";		
+		z.style.display= "none";
+	}
+
+	function weekFunction() {
+		var x= document.getElementById("day");
+		var y= document.getElementById("week");
+		var z= document.getElementById("report");
+		y.style.display= "block";
+		x.style.display= "none";	
+		z.style.display= "none";
+	}
+	function reportFunction() {
+		var x= document.getElementById("day");
+		var y= document.getElementById("week");
+		var z= document.getElementById("report");
+		z.style.display= "block";
+		x.style.display= "none";
+		y.style.display= "none";
+		
+	}*/
+
+
+	function dayFunction() {
+		var y= document.getElementById("week");
+		var x= document.getElementById("day");
+        x.style.display= "block";
+		y.style.display= "none";
+
+	}
+
+	function weekFunction() {
+		var x= document.getElementById("day");
+		var y= document.getElementById("week");
+        y.style.display= "block";
+		x.style.display= "none";
+
+	}
+
+
+</script>
+</body>
+</html>

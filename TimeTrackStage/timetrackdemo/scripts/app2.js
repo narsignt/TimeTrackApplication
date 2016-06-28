@@ -137,28 +137,31 @@ app.service('TaskService',function($http, $q, $log){
             });
         return deferred.promise;
     }
-	this.weektrackInfo= function(weeks, user_id,isadmin){
-		//var url = "/timetrack/update_week.php?data="+weeks+"&user_id="+user_id+"&isadmin="+isadmin;
+	/*this.bwdates= function(date1, date2,user_id){
+		console.log("datefilter"+date1+date2+user_id);
+		var url = "/timetrack/dateBetweeen.php?date1="+date1+"&date2="+date2+"&user_id="+user_id;
 		//console.log("week:"+url);
 		 var deferred = $q.defer();
-		  $http({
-            method: 'POST',
-            url: '/timetrack/update_week.php',
-            headers:{
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data: {
-                'data': weeks,
-				'user_id': user_id,
-				'isadmin': isadmin
-            }
-        })
+		   $http.get(url)
+            .success(function(response){
+				console.log("success  bwdates");
+                deferred.resolve({
+                    weeklytrackdetails: response
+                });
+            })
+			
+            .error(function(response){
+				console.log("error bwdates");
+                deferred.reject(response);
+                $log.error(response);
+            });
+			return deferred.promise;
+	}*/
+	this.weektrackInfo= function(weeks, user_id,isadmin){
+		var url = "/timetrack/week_track.php?data="+weeks+"&user_id="+user_id+"&isadmin="+isadmin;
+		//console.log("week:"+url);
+		 var deferred = $q.defer();
+		   $http.get(url)
             .success(function(response){
                 deferred.resolve({
                     weeklytrackdetails: response
@@ -171,7 +174,7 @@ app.service('TaskService',function($http, $q, $log){
 			return deferred.promise;
 	}
 
-	/*this.getMonthlyTrackInfo= function(startDate,endDate,uid){
+	this.getMonthlyTrackInfo= function(startDate,endDate,uid){
 		var url = "/timetrack/update_week.php?user_id="+uid+"&start_date="+startDate+"&end_date="+endDate;
 		var deferred = $q.defer();
 		   $http.get(url)
@@ -186,39 +189,8 @@ app.service('TaskService',function($http, $q, $log){
                 $log.error(response);
             });
 			return deferred.promise;
-	}*/
-	this.getMonthlyTrackInfo= function(startDate,endDate,uid){
-		var deferred = $q.defer();
-		   $http({
-            method: 'POST',
-            url: '/timetrack/week_track.php',
-            headers:{
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data: {
-                'user_id': uid,
-				'start_date': startDate,
-				'end_date': endDate
-            }
-        })
-            .success(function(response){
-                deferred.resolve({
-                    weektrackdetails: response
-
-                });
-            })
-            .error(function(response){
-                deferred.reject(response);
-                $log.error(response);
-            });
-			return deferred.promise;
 	}
+
     this.projectList = function(projectdetails){
         this.projectDetails = projectdetails;
         return this.projectDetails;
@@ -286,7 +258,7 @@ app.service('TaskService',function($http, $q, $log){
         return deferred.promise;
     }
 
-    this.delete = function(track_id,uid,isadmin,start_date,end_date){
+    this.delete = function(track_id,uid,isadmin){
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -303,9 +275,7 @@ app.service('TaskService',function($http, $q, $log){
             data: {
                 'track_id': track_id,
                 'user_id': uid,
-                'isadmin': isadmin,
-                'start_date' : start_date,
-                'end_date' : end_date
+                'isadmin': isadmin
             }
         })
             .success(function(response, status, headers, config) {
@@ -337,44 +307,23 @@ app.service('TaskService',function($http, $q, $log){
         return deferred.promise;
     };
 
-    this.filterBtDates = function(dt1,dt2,userdetails){
-        var df = parseDate(dt1);
-        var dt = parseDate(dt2);
-        var result = [];
-        if(dt1 > dt2){
-            //alert("To Date should be greater than From date");
-            $scope.alertDialog = true;
-            // $scope.datemsg = "To Date should be greater than From date";
-
-        }
-        for (var i = 0; i < userdetails.length; i++) {
-            var date_bet = parseDate(userdetails[i].date);
-
-            if (date_bet >= df && dt >= date_bet) {
-                result.push(userdetails[i]);
-            }
-
-        }
-        return result;
-    };
-
     this.individualweek = function(week,date,isadmin,weeklyInfo,message){
         weeks = [];
         for (var j = 0; j < 8; j++) {
             if (j == 0) {
                 weekStartDate = "";
                 weekEndDate = "";
-               // if(isadmin){
+                if(isadmin){
                     //weekStartDate = moment(date).add(1, 'days');
                     weekStartDate = moment(date).format("MM/DD");
                     weekEndDate = moment(date).add(6, 'days');
                     weekEndDate = moment(weekEndDate).format("MM/DD");
-                /*}else{
+                }else{
                     weekStartDate = moment(date).add(1, 'days');
                     weekStartDate = moment(weekStartDate).format("MM/DD");
                     weekEndDate = moment(date).add(5, 'days');
                     weekEndDate = moment(weekEndDate).format("MM/DD");
-                }*/
+                }
                 var day = {
                     "date": weekStartDate + " to " + weekEndDate,
                     "placeholder": weekStartDate + " to " + weekEndDate,
@@ -402,44 +351,7 @@ app.service('TaskService',function($http, $q, $log){
                     weeks.push(day);
                 }
             }*/ else {
-                //if(isadmin){
-                    if (weeklyInfo.length == 0 || (message === "No Records found for user")) {
-                        var day = {
-                            "date": moment(date).format("DD-MM-YYYY"),
-                            "placeholder": moment(date).format("DD-MM-YYYY"),
-                            "readonly": false,
-                            "flag": false
-                        };
-                        weeks.push(day);
-                    } else {
-                        date = moment(date).format("YYYY-MM-DD");
-                        for (z = 0; z < weeklyInfo.length; z++) {
-                            if (weeklyInfo[z].date === date) {
-                                //console.log("JS date is " + date + " and respose date is " + weeklyInfo[z].date);
-                                var day = {
-                                    "date": moment(date).format("DD-MM-YYYY"),
-                                    "placeholder": moment(date).format("DD-MM-YYYY"),
-                                    "readonly": false,
-                                    "time": weeklyInfo[z].hours,
-                                    "flag": false
-                                };
-                                weeks.push(day);
-                                weeklyInfo.splice(z, 1);//breaking
-                                break;
-                            }
-                        }
-                        if (weeks[weeks.length - 1].date != moment(date).format("DD-MM-YYYY")) {
-                            var day = {
-                                "date": moment(date).format("DD-MM-YYYY"),
-                                "placeholder": moment(date).format("DD-MM-YYYY"),
-                                "readonly": false,
-                                "flag": false
-                            };
-                            weeks.push(day);
-                        }
-                    }
-
-                /*}else if(j != 1 && j !=7) {
+                if(isadmin){
                     if (weeklyInfo.length == 0 || (message === "No Records found for user")) {
                         var day = {
                             "date": moment(date).format("DD-MM-YYYY"),
@@ -475,7 +387,44 @@ app.service('TaskService',function($http, $q, $log){
                             weeks.push(day);
                         }
                     }
-                }*/
+
+                }else if(j != 1 && j !=7) {
+                    if (weeklyInfo.length == 0 || (message === "No Records found for user")) {
+                        var day = {
+                            "date": moment(date).format("DD-MM-YYYY"),
+                            "placeholder": moment(date).format("DD-MM-YYYY"),
+                            "readonly": false,
+                            "flag": false
+                        };
+                        weeks.push(day);
+                    } else {
+                        date = moment(date).format("YYYY-MM-DD");
+                        for (z = 0; z < weeklyInfo.length; z++) {
+                            if (weeklyInfo[z].date === date) {
+                                console.log("JS date is " + date + " and respose date is " + weeklyInfo[z].date);
+                                var day = {
+                                    "date": moment(date).format("DD-MM-YYYY"),
+                                    "placeholder": moment(date).format("DD-MM-YYYY"),
+                                    "readonly": false,
+                                    "time": weeklyInfo[z].hours,
+                                    "flag": false
+                                };
+                                weeks.push(day);
+                                weeklyInfo.splice(z, 1);//breaking
+                                break;
+                            }
+                        }
+                        if (weeks[weeks.length - 1].date != moment(date).format("DD-MM-YYYY")) {
+                            var day = {
+                                "date": moment(date).format("DD-MM-YYYY"),
+                                "placeholder": moment(date).format("DD-MM-YYYY"),
+                                "readonly": false,
+                                "flag": false
+                            };
+                            weeks.push(day);
+                        }
+                    }
+                }
             }if(j!=7) {
                 date = moment(date).add(1, 'days');
             }
@@ -489,8 +438,9 @@ app.service('TaskService',function($http, $q, $log){
 
     };
 
+
 });
-app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskService','$filter','$window','ngTableParams','$timeout','$confirm', function($rootScope,$location,$scope,$http,TaskService,$filter,$window,ngTableParams,$timeout,$confirm) {
+app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskService','$filter','$window','ngTableParams','$timeout','$confirm',function($rootScope,$location,$scope,$http,TaskService,$filter,$window,ngTableParams,$timeout,$confirm) {
     console.log(($location.absUrl()));
     TaskService.deparam($location.absUrl()).then(function(details){
         $rootScope.globals={
@@ -498,17 +448,12 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 uid:details.userdetails.uid,
                 uname:details.userdetails.uname,
 				UserName:details.userdetails.UserName,
-                EmpNumber:details.userdetails.empNumber,
-                Country:details.userdetails.country
             }
 		
         };
-        console.log($rootScope.currentUser.EmpNumber);
-        console.log($rootScope.currentUser.Country);
         currentdate = new Date();
         $scope.current_month = moment(currentdate).format("MMMM");
         $scope.current_year = moment(currentdate).format("YYYY");
-		//$scope.showDialog = true;
 
         // Create Base64 Object
         var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
@@ -528,8 +473,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 				$scope.entire_data = $scope.userdetails;
                 if(details.userdetails[0].role == "user"){
                     $scope.isadmin = false;
-					$scope.current_username = details.userdetails[0].u_name+"!";
-					//$scope.current_usermail = details.userdetails[0].email_id;
+
                     //weekly data for user
                     currentdate = new Date();
                     current_month = moment(currentdate).format("MM");
@@ -550,10 +494,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     var str = "";
                     date = startDayOfFirstWeek;//moment(startDate).format("MM")
                     $scope.month = "";
-                    $scope.startDayOfFirstWeek = moment(startDayOfFirstWeek).format("YYYY-MM-DD");
-                    $scope.lastDayOfLastWeek = moment(lastDayOfLastWeek).format("YYYY-MM-DD");
-                    $scope.weekTotal = weekTotal;
-                    TaskService.getMonthlyTrackInfo($scope.startDayOfFirstWeek, $scope.lastDayOfLastWeek, $scope.uid).then(function (details) {
+                    TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.uid).then(function (details) {
                         if (details.weektrackdetails.message === "Records found successfully") {
                             weeklyInfo = details.weektrackdetails.weekdetailsarray;
                         }
@@ -571,24 +512,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                      document.getElementById("deleteproject").style.display = "none";*/
                 }else{
                     $scope.isadmin = true;
-					$scope.current_usermail = details.userdetails.email_id;
-
                     $scope.usernames = details.userdetails;
-                    var alluser ={
-                        "user_id" : "alluser",
-                        "u_name" : "All Users"
-                    };
-                    var indianuser ={
-                        "user_id" : "indianuser",
-                        "u_name" : "Indian Users"
-                    };
-                    var ususer ={
-                        "user_id" : "ususer",
-                        "u_name" : "US Users"
-                    };
-                    $scope.usernames.splice(0, 0, alluser);
-                    $scope.usernames.splice(1, 0, indianuser);
-                    $scope.usernames.splice(2, 0, ususer);
                 }
             }
 
@@ -598,185 +522,114 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         //$cookieStore.put('globals',$rootScope.globals);
     });
 
-    $scope.validHour = function(data){
-        if(data.day.time <= 0 || data.day.time > 24 || angular.isUndefined(data.day.time)){
-            // data.day.time = 0;
-            alert("Hours per day cannot exceed 24");
-			//$scope.hoursmsg = "Hours must be less than 24"; 
-			//$scope.showDialog = false;
-            
+    $scope.validHour = function(hour){
+        if(hour < 0 || hour > 24 || angular.isUndefined(hour)){
+			 alert("Hours must be less than 24");
+			//$scope.showDialog = true;
+            //$scope.hoursmsg = "Hours must be less than 24";
         }
     };
 
-    $scope.monthfunction = function(){//adminfromdate,admintodate,entire_data
-		$scope.month="";
+ 
+    if(!$scope.isadmin){
 
 
-        if(!angular.isUndefined($scope.adminfromdate) && !angular.isUndefined($scope.admintodate) && !angular.isUndefined($scope.wuname) && $scope.wuname != null ) {
-            //startDate = moment([$scope.wyear, $scope.wmonth - 1]).toDate();
-            startDate = $scope.adminfromdate;
-            startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
-            //endDate = moment(startDate).endOf('month').toDate();
-            endDate = $scope.admintodate;
-            startDayOfLastWeek = moment(endDate).startOf('week').toDate();
-            lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
-            totalDayInMonth = new Date($scope.wyear, $scope.wmonth, 0).getDate();
-            gapInFirstWeek = moment(startDate).diff(startDayOfFirstWeek, 'days');
-            gapInLastWeek = 6 - moment(endDate).diff(startDayOfLastWeek, 'days');
-            weekTotal = (moment(lastDayOfLastWeek).diff(moment(startDayOfFirstWeek), 'days') + 1)/7;
-            //weekTotal = (totalDayInMonth + gapInFirstWeek + gapInLastWeek) / 7;
-            console.log("WeekTotal : " + weekTotal);
-            weeks = [];
-            month = [];
-            weeklyInfo = [];
-            downloadWeeklyInfo=[];
-            candidate={};
-            candidates=[];
-            var str = "";
-            date = startDayOfFirstWeek;
-            TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
-                //console.log(details);
-                debugger;
-                if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
-                    if (details.weektrackdetails.message === "Records found successfully") {
-                        weeklyInfo = details.weektrackdetails.weekdetailsarray;
-                        downloadWeeklyInfo=details.weektrackdetails.weekdetailsarray;
-                        
-                    }
-                    for (var i = 0; i < weekTotal; i++) {
-                        weekdate = TaskService.individualweek(i, date, $scope.isadmin, weeklyInfo, details.weektrackdetails.message);
-                        console.log(weekdate);
-                        month.push(weekdate.week);
-                        console.log(month);
-                        date = moment(weekdate.date).add(1, 'days');
-                        console.log(date);
-                        weeklyInfo = weekdate.weeklyInfo;
-                        console.log(weeklyInfo);
-                    }
-                    console.log(month);
-                    candidate={"userName":$scope.wuname,"data":month};
-                    //candidate[$scope.wuname]=month;
-                    candidates.push(candidate);
-                    console.log(candidate);
-                     console.log(candidates);
-                    //  var name=$scope.wuname;
-                    // candidate[name].push(month);
-                    console.log(candidates);
-                    $scope.month = candidates;
-                    console.log($scope.month);
-                }else
-                {
-                    if (details.weektrackdetails.message === "Records found successfully") {
-                        weeklyInfo = details.weektrackdetails.weekdetailsarray;
-                    }
-                    var sortWeeklyInfo={};
-                    for(i=0;i<weeklyInfo.length;i++)
-                    {
-                        var name=weeklyInfo[i].u_name;
-                        if(typeof (sortWeeklyInfo[name])=="undefined"){
-                            sortWeeklyInfo[name]=[];
-                        }
-                        sortWeeklyInfo[name].push(weeklyInfo[i]);
-                    }
-                    angular.forEach(sortWeeklyInfo,function(value,key){
-                            if (details.weektrackdetails.message === "Records found successfully") {
-                                weeklyInfo = value;
-                            }
-                            for (var j = 0; j < weekTotal; j++) {
-                                weekdate = TaskService.individualweek(j, date, $scope.isadmin, weeklyInfo, details.weektrackdetails.message);
-                                month.push(weekdate.week);
-                                date = moment(weekdate.date).add(1, 'days');
-                                weeklyInfo = weekdate.weeklyInfo;
-                            }
-                            candidate={"userName":key,"data":month};
-                            month = [];
-                            weeklyInfo = [];
-                            date=startDayOfFirstWeek;
-                            candidates.push(candidate);
-                    });
-                   $scope.month = candidates;
-                }
-            });
-        }else if(angular.isUndefined($scope.wyear)){
-            $scope.wmonth = "";
-            $scope.month =[];
-        }
-        else{
-            $scope.month =[];
-        }
+    }
+
+
+
+
+
+$scope.monthfunction = function(){
+    if(!angular.isUndefined($scope.wyear) && !angular.isUndefined($scope.wmonth) && !angular.isUndefined($scope.wuname) ) {
+        startDate = moment([$scope.wyear, $scope.wmonth - 1]).toDate();
+        startDayOfFirstWeek = moment(startDate).startOf('week').toDate();
+        endDate = moment(startDate).endOf('month').toDate();
+        startDayOfLastWeek = moment(endDate).startOf('week').toDate();
+        lastDayOfLastWeek = moment(endDate).endOf('week').toDate();
+        totalDayInMonth = new Date($scope.wyear, $scope.wmonth, 0).getDate();
+        gapInFirstWeek = moment(startDate).diff(startDayOfFirstWeek, 'days');
+        gapInLastWeek = 6 - moment(endDate).diff(startDayOfLastWeek, 'days');
+        weekTotal = (totalDayInMonth + gapInFirstWeek + gapInLastWeek) / 7;
+        console.log("WeekTotal : " + weekTotal);
+        weeks = [];
+        month = [];
+        weeklyInfo = [];
+        var str = "";
+        date = startDayOfFirstWeek;
+        TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
+            if (details.weektrackdetails.message === "Records found successfully") {
+                weeklyInfo = details.weektrackdetails.weekdetailsarray;
+            }
+            for (var i = 0; i < weekTotal; i++) {
+                weekdate = TaskService.individualweek(i,date,$scope.isadmin,weeklyInfo,details.weektrackdetails.message);
+                month.push(weekdate.week);
+                date = moment(weekdate.date).add(1, 'days');
+                weeklyInfo = weekdate.weeklyInfo;
+            }
+            $scope.month = month;
+        });
+    }else if(angular.isUndefined($scope.wyear)){
+        $scope.wmonth = "";
+        $scope.month =[];
+    }
+    else{
+        $scope.month =[];
+    }
+
+        
     };
 
     $scope.updateWeek = function(week){
-		$scope.showWeekDialog = false;
         dailyReport = [];
         uid ="";
-        checkHour = false;
-        for(i =1 ;i<week.length; i++){
-            if(week[i].hasOwnProperty("time")){
-				if(!angular.isUndefined(week[i].time)){
-					var day = {
-						"day" : week[i].date,
-						"hours" : week[i].time
-					}
-					dailyReport.push(day);
-				}else{
-                checkHour = true;
-                break;
-				}
-            }else{
-				if(!angular.isUndefined(week[i].time)){
-					var day = {
-							"day" : week[i].date,
-							"hours" : week[i].time
-						}
-						dailyReport.push(day);
-				}
-			}
+        for(i =0 ;i<week.length; i++){
+            if(!angular.isUndefined(week[i].time)){
+                var day = {
+                    "day" : week[i].date,
+                    "hours" : week[i].time
+                }
+                dailyReport.push(day);
+            }
         }
-        if(checkHour == false) {
-            var data = {};
-            data['weeks'] = dailyReport;
-            data['year'] = $scope.wyear;
-            data['month'] = $scope.wmonth;
-            //console.log(data);
-            $scope.data = JSON.stringify(data);
-            console.log("data" + data);
-            if ($scope.isadmin) {
-                uid = $scope.wuname;
-            } else {
-                uid = $scope.uid;
+		var data={};
+		data['weeks']=dailyReport;
+		data['year']=$scope.wyear;
+		data['month']=$scope.wmonth;
+		//console.log(data);
+		$scope.data=JSON.stringify(data);
+        if($scope.isadmin){
+            uid = $scope.wuname;
+        }else{
+            uid = $scope.uid;
+        }
+        TaskService.weektrackInfo($scope.data,uid,$scope.isadmin).then(function(details){
+            if(details.weeklytrackdetails.message==="Updated Successfully"){
+                console.log("data saved");
+					 bootstrap.alert("Hello world!", function() {
+               
+          
+
+                        $scope.userdetails = "";
+                        $scope.userdetails = details.weeklytrackdetails.timetrackdetails;//TaskService.list(details.weeklytrackdetails.timetrackdetails,details.weeklytrackdetails.userdetails);
+					  });
+                //$confirm({text: 'User details updated successfully.',  ok: 'Yes'});
+            }else{
+                console.log("data not saved");
+				//$scope.showWeekDialog = true;
+				//$confirm({text: 'Server is down. Please try later.',  ok: 'Yes'});
             }
 
-            TaskService.weektrackInfo($scope.data, uid, $scope.isadmin).then(function (details) {
-                if (details.weeklytrackdetails.message === "Updated Successfully") {
-                    $scope.weekmsg = "Updated Successfully";
-                    $scope.showWeekDialog = true;
-                    $scope.userdetails = "";
-                    userdetails = details.weeklytrackdetails.timetrackdetails;//TaskService.list(details.weeklytrackdetails.timetrackdetails,details.weeklytrackdetails.userdetails);
-                    $scope.entire_data = userdetails;
-                    $scope.userdetails = TaskService.filterBtDates($scope.dt1,$scope.dt2,userdetails);
-
-                    //$confirm({text: 'User details updated successfully.',  ok: 'Yes'});
-                } else {
-                    $scope.weekmsg = "Error while updating in DB. Please try again later";
-                    $scope.showWeekDialog = true;
-                    //$confirm({text: 'Server is down. Please try later.',  ok: 'Yes'});
-                }
-
-            });
-        }else{
-            //remove blur
-			$scope.weekmsg = "Hours per day cannot exceed 24";
-			$scope.showWeekDialog = true;
-			
-        }
+        });
     };
-
+	
+	
 	$scope.getSumOfWeekHours = function(week){
         total =0;
         for(i=0;i<week.length;i++){
             if((!angular.isUndefined(week[i].time)) && (week[i].time != null) && (week[i].time != "")) {
                 total += parseInt(week[i].time);
+
 				if(total<40){
 					
 				}else if(total>40){
@@ -819,9 +672,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     $scope.tableParams.reload();
 	}*/
     $scope.edit = function(trackdetails){
-		if(trackdetails.hours.charAt(0) == "0"){
-			trackdetails.hours = trackdetails.hours.slice(1);
-		}
         $scope.newtrack.date = trackdetails.date;
         $scope.newtrack.hours = trackdetails.hours;
         $scope.newtrack.minutes = trackdetails.minutes;
@@ -835,16 +685,12 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         isadmin = "";
         if($scope.isadmin){
             isadmin = true;
-            startDayOfFirstWeek = "";
-            lastDayOfLastWeek = "";
         }else{
             isadmin = false;
-            startDayOfFirstWeek = $scope.startDayOfFirstWeek;
-            lastDayOfLastWeek = $scope.lastDayOfLastWeek;
         }
-        $confirm({text: 'Are you sure you want to delete this record?',  ok: 'Yes', cancel: 'No'})
+        $confirm({text: 'Are you sure do you want to delete this record?',  ok: 'Yes', cancel: 'No'})
             .then(function() {
-                TaskService.delete(user.id,user.user_id,isadmin,startDayOfFirstWeek,lastDayOfLastWeek).then(function(details){
+                TaskService.delete(user.id,user.user_id,isadmin).then(function(details){
                     //$scope.userdetails = TaskService.list(details.response.timetrackdetails,details.response.userdetails);
                     $scope.userdetails = details.response.timetrackdetails;
                     /*if(details.response.userdetails[0].role == "user"){
@@ -855,29 +701,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     $scope.newtrack.date = "";
                     $scope.newtrack ={};
                     $scope.newtrack.projectDetails = TaskService.plist();
-                    weeklyInfo = [];
-                    month = [];
-
-                    if($scope.isadmin){
-                        $scope.month =[];
-                        $scope.wyear = "";
-                        $scope.wmonth = "";
-                        $scope.wuname = "";
-
-                    }else {
-                        day = new Date(startDayOfFirstWeek);
-                        if (details.response.wmessage === "Records found successfully") {
-                            weeklyInfo = details.response.weekdetailsarray;
-                        }
-                        for (var i = 0; i < parseInt($scope.weekTotal); i++) {
-                            weekdate = TaskService.individualweek(i, day, $scope.isadmin, weeklyInfo, details.response.wmessage);
-                            month.push(weekdate.week);
-                            day = moment(weekdate.date).add(1, 'days');
-                            weeklyInfo = weekdate.weeklyInfo;
-                        }
-                        $scope.month = month;
-                    }
-
                 });
             });
         $scope.isdeletedaydetail = true;
@@ -886,35 +709,20 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 
     $scope.deleteproject = function(){
         if(!angular.isUndefined($scope.newtrack.projectinfo)) {
-			
-            $confirm({text: 'Are you sure you want to delete this project?', ok: 'Yes', cancel: 'No'})
+            $confirm({text: 'Are you sure do you want to delete this project?', ok: 'Yes', cancel: 'No'})
                 .then(function () {
                     TaskService.deleteprojectName($scope.newtrack.projectinfo).then(function (details) {
                         $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
                     });
                 });
-            }else{
-                alert("Please select the project to delete");
-				//$scope.deleteDialog = true;
-				//$scope.deletemsg = "Please select the Project to delete";
-            }
+        }
     };
 	$scope.projectsubmit = function(){
-        if(angular.isDefined($scope.projectname)) {
-            if($scope.projectname.length>0) {
-                TaskService.addprojectName($scope.projectname).then(function (details) {
-                    $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
-                    $scope.projectname = '';
-                });
-                $scope.isprojecttext = false;
-            }else{
-                alert("Project name should not be empty");
-                $scope.projectname = '';
-            }
-        }else{
-            alert("Project name should not be empty");
+        TaskService.addprojectName($scope.projectname).then(function(details){
+            $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
             $scope.projectname = '';
-        }
+        });
+        $scope.isprojecttext = false;
     };
 
     $scope.reset = function(){
@@ -923,11 +731,9 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     };
 	 $scope.exportData = function (userdetails) {
 		if(userdetails.length > 0){
-        //alasql.promise('SELECT * INTO XLS("timetrack.xls",{headers:true}) FROM HTML("#exportable", {headers:true})');
-            alasql('SELECT project_name, u_name, hours, description, email_id, date, updated_date INTO XLS("timetrack.xls",{headers:true}) FROM ?',[userdetails]);
-
-        }else{
-			//console.log(userdetails.length);
+        alasql.promise('SELECT * INTO XLS("timetrack.xls",{headers:true}) FROM HTML("#exportable", {headers:true})');
+		}else{
+			console.log(userdetails.length);
 			alert("nodata");
 		}
    };
@@ -955,10 +761,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     });
 	}*/
     $scope.getBtDates = function(dt1,dt2,userdetails){
-        //filterBtDates
-        $scope.userdetails = TaskService.filterBtDates(dt1,dt2,userdetails);
-
-   /*     var df = parseDate(dt1);
+        var df = parseDate(dt1);
         var dt = parseDate(dt2);
         var result = [];
 		 if(dt1 > dt2){
@@ -975,8 +778,9 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             }
 			
         }
-        $scope.userdetails = result;*/
-
+        $scope.userdetails = result;
+		
+		
     };
     $scope.newtrack={};
     $scope.newtrack.projectDetails=[];
@@ -1008,10 +812,9 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 
    
     $scope.today = function() {
-        $scope.dt2 = moment(new Date()).format('YYYY-MM-DD');
-        $scope.dt1 = moment($scope.dt2).subtract(1,'months').format('YYYY-MM-DD');
-        /*var previousMonth = new Date($scope.dt2);
-        $scope.dt1=previousMonth.setMonth($scope.dt2.getMonth()-1);*/
+        $scope.dt2 = new Date();
+        var previousMonth = new Date($scope.dt2);
+        $scope.dt1=previousMonth.setMonth($scope.dt2.getMonth()-1);
     };
     $scope.today();
     $scope.toggleMin = function() {
@@ -1049,39 +852,19 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     $scope.status2 = {
         opened: false
     };
-    $scope.downloadData = function(){
-        lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
-        startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
-        TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
-            if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
-                console.log(lastDayOfLastWeek);
-                console.log(startDayOfFirstWeek);
-                console.log($scope.wuname);
-                console.log(details.weektrackdetails.weekdetailsarray);
-                alasql('SELECT user_id,u_name,email_id,location, project_name, date,hours,updated_date INTO XLS("weektrack.xls",{headers:true}) FROM ?',[details.weektrackdetails.weekdetailsarray]);
-            }
-        });
-        //alasql('SELECT uid,uname,email_id,date,hours INTO XLS("weektrack.xls",{headers:true}) FROM  ?',[downloadDetailsArray]);
-
-    };
+	/*$scope.showMe = function(){
+         $scope.day=true;
+         $scope.week=false;
+       };
+    $scope.hideMe = function(){
+         $scope.week=true;
+         $scope.day=false;
+       };
+	$scope.active = {
+    one: true
+  };*/
 }]);
-app.directive('numbersOnly', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attr, ngModelCtrl) {
-            function fromUser(text) {
-                if (text) {
-                    var transformedInput = text.replace(/[^0-9]/g, '');
-
-                    if (transformedInput !== text) {
-                        ngModelCtrl.$setViewValue(transformedInput);
-                        ngModelCtrl.$render();
-                    }
-                    return transformedInput;
-                }
-                return undefined;
-            }
-            ngModelCtrl.$parsers.push(fromUser);
-        }
-    };
-});
+app.controller("AlertsCtrl",['$scope','alertsManager',function($scope, alertsManager) {
+    $scope.alerts = alertsManager.alerts;
+}
+]);
