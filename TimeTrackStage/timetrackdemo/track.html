@@ -88,7 +88,7 @@
 								</p>
 							</div>
 							<input ng-show="isadmin" type="button" id="aweekdetails" ng-click="monthfunction()" ng-disabled="adminfromdate>admintodate" value="Generate Activity Log" style="height: 32px;margin-top: -5px;width: 16%;"/>
-							<input type="button" id="adminexportData" ng-click="downloadData()" ng-hide="false" value="Download data"style="margin-top: -15px; margin-right: -203px;"/><i class="glyphicon glyphicon-download-alt"></i>
+							<input ng-show="isadmin" type="button" id="adminexportData" ng-click="downloadData()" ng-hide="false" value="Download data"style="margin-top: -5px;margin-right: -203px;height: 32px;margin-left: 10px;"/><i ng-show="isadmin" class="glyphicon glyphicon-download-alt" style="margin-right: -197px;margin-top: -14px;"></i>
 						</div>
 						<div class="new" style="float:left;margin-left: 16px;">
 							<label for="month" ng-if = "!isadmin">Month</label>
@@ -121,7 +121,7 @@
 
 								<!--second table first-->
 								<thead>
-								<tr><th>{{key.userName}}</th></tr>
+								<tr ng-show="key.diableForAdmin"><th>{{key.userName}}</th></tr>
 								<tr>
 									<th>Week</th>
 									<th>Sunday</th>
@@ -144,7 +144,7 @@
 									<td class="change-color"  ng-style="getSumOfWeekHours(week) === 0 && {'background-color':'yellow'} || getSumOfWeekHours(week) === 40 && {'background-color':'#fafafa'}   ||  getSumOfWeekHours(week) <= 40 && {'background-color':'yellow'}  || getSumOfWeekHours(week) > 40 && {'background-color':'red'}  ||  getSumOfWeekHours(week) === 39 && {'background-color':'yellow'}" >{{getSumOfWeekHours(week)}}</td>
 									<td>
 										<button type="button" title="Save" class="savefield" ng-style="key.diableForAdmin === true && {'background-color':'lightgrey'} || key.diableForAdmin === false && {'background-color':'#408bd0'}" ng-disabled="key.diableForAdmin" ng-click="updateWeek(week)" data-toggle="modal" data-target="#saveWeekModal"><span class="glyphicon glyphicon-saved"></span></button>
-										<div class="modal fade" id="saveWeekModal" role="dialog" ng-if="showWeekDialog">
+										<div class="modal fade" id="saveWeekModal" role="dialog" ng-show="showWeekDialog">
 											<div class="modal-dialog">
 												<div class="modal-content" style="width: 48%;height: 107px;margin: 0 auto;">
 													<p style="margin-top: 21px; margin-left: 10px;" ng-bind="weekmsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
@@ -268,16 +268,16 @@
 										<li class="time-tracker-btns">
 											<input type="hidden" ng-model="newtrack.id">
 											<input class="it-btns" type="submit" value="Submit" ng-click="submit()" ng-disabled="myform.$invalid" data-toggle="modal" data-target="#submitdaytask"style="width:87px;float: left;margin-left: 22px;margin-right: 5px;">
-											<!--<div class="modal fade" id="submitdaytask" role="dialog" ng-show="showDialog">
+											<div class="modal fade" id="submitdaytask" role="dialog" ng-if="showDialog">
 											<div class="modal-dialog">
 												<div class="modal-content" style="width: 48%;height: 107px;margin: 0 auto;">
-													<p style="margin-top: 21px; margin-left: 10px;" ng-bind="weekmsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
+													<p style="margin-top: 21px; margin-left: 10px;" ng-bind="submitmsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
 													<div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
 														<button type="button" class="btn btn-default"  data-dismiss="modal" style="margin-top: -10px;" data-dismiss="modal">Ok</button>
 													</div>
 												</div>
 											</div>
-										</div>-->
+										</div>
 											<input class="it-btns" type="Reset" ng-click="reset()"style="width: 94px;float: left;"/>
 											<div class="clr"></div>
 										</li>
@@ -405,47 +405,19 @@
 	</div> <!--tab content end -->
 </div>
 <script>
-	/*function dayFunction() {
-		var y= document.getElementById("week");
-		var x= document.getElementById("day");
-		var z= document.getElementById("report");
-		x.style.display= "block";
-		y.style.display= "none";		
-		z.style.display= "none";
-	}
-
-	function weekFunction() {
-		var x= document.getElementById("day");
-		var y= document.getElementById("week");
-		var z= document.getElementById("report");
-		y.style.display= "block";
-		x.style.display= "none";	
-		z.style.display= "none";
-	}
-	function reportFunction() {
-		var x= document.getElementById("day");
-		var y= document.getElementById("week");
-		var z= document.getElementById("report");
-		z.style.display= "block";
-		x.style.display= "none";
-		y.style.display= "none";
-		
-	}*/
-
-
 	function dayFunction() {
-		var y= document.getElementById("week");
-		var x= document.getElementById("day");
-        x.style.display= "block";
-		y.style.display= "none";
+		var weektab= document.getElementById("week");
+		var daytab= document.getElementById("day");
+        daytab.style.display= "block";
+		weektab.style.display= "none";
 
 	}
 
 	function weekFunction() {
-		var x= document.getElementById("day");
-		var y= document.getElementById("week");
-        y.style.display= "block";
-		x.style.display= "none";
+		var daytab= document.getElementById("day");
+		var weektab= document.getElementById("week");
+        weektab.style.display= "block";
+		daytab.style.display= "none";
 
 	}
 

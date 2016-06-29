@@ -618,8 +618,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     });
 
     $scope.validHour = function(data){
-        if(data.day.time <= 0 || data.day.time > 24 || angular.isUndefined(data.day.time)){
-            // data.day.time = 0;
+        if(data.day.time < 0 || data.day.time > 24){
+             data.day.time = 0;
             alert("Hours per day cannot exceed 24");
 			//$scope.hoursmsg = "Hours must be less than 24"; 
 			//$scope.showDialog = false;
@@ -659,6 +659,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
+
                         
                     }
                     for (var i = 0; i < weekTotal; i++) {
@@ -686,8 +687,13 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 {
                     $scope.disableForAdmin=false;
                     if (details.weektrackdetails.message === "Records found successfully") {
+
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
 
+                    }
+                    if(details.weektrackdetails.message === "No Records found for user")
+                    {
+                      alert("No Records found for user");
                     }
                     var sortWeeklyInfo={};
                     for(i=0;i<weeklyInfo.length;i++)
@@ -714,7 +720,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                             date=startDayOfFirstWeek;
                             candidates.push(candidate);
                     });
-                    
+                    $scope.disableForAdmin=true;
                    $scope.month = candidates;
 
                 }
@@ -778,11 +784,11 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     $scope.entire_data = userdetails;
                     $scope.userdetails = TaskService.filterBtDates($scope.dt1,$scope.dt2,userdetails);
 
-                    //$confirm({text: 'User details updated successfully.',  ok: 'Yes'});
+                   // $confirm({text: 'User details updated successfully.',  ok: 'Yes'});
                 } else {
                     $scope.weekmsg = "Error while updating in DB. Please try again later";
                     $scope.showWeekDialog = true;
-                    //$confirm({text: 'Server is down. Please try later.',  ok: 'Yes'});
+                   // $confirm({text: 'Server is down. Please try later.',  ok: 'Yes'});
                 }
 
             });
@@ -1075,7 +1081,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         opened: false
     };
     $scope.downloadData = function(){
-        alert();
         lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
         startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
             TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
