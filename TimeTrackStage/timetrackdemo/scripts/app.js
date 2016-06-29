@@ -552,6 +552,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     weeks = [];
                     month = [];
                     weeklyInfo = [];
+					candidate={};
+					candidates=[];
                     var str = "";
                     date = startDayOfFirstWeek;//moment(startDate).format("MM")
                     $scope.month = "";
@@ -559,17 +561,28 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     $scope.lastDayOfLastWeek = moment(lastDayOfLastWeek).format("YYYY-MM-DD");
                     $scope.weekTotal = weekTotal;
                     TaskService.getMonthlyTrackInfo($scope.startDayOfFirstWeek, $scope.lastDayOfLastWeek, $scope.uid).then(function (details) {
-                        console.log(responseDetails.weektrackdetails.weekdetailsarray);
-                        if (responseDetails.weektrackdetails.message === "Records found successfully") {
-                            weeklyInfo = responseDetails.weektrackdetails.weekdetailsarray;
+                        console.log(details.weektrackdetails.weekdetailsarray);
+                        if (details.weektrackdetails.message === "Records found successfully") {
+                            weeklyInfo = details.weektrackdetails.weekdetailsarray;
                         }
                         for (var i = 0; i < weekTotal; i++) {
-                            weekdate = TaskService.individualweek(i,date,$scope.isadmin,weeklyInfo,responseDetails.weektrackdetails.message);
+                            weekdate = TaskService.individualweek(i,date,$scope.isadmin,weeklyInfo,details.weektrackdetails.message);
                             month.push(weekdate.week);
-                            date = moment(weekdate.date).add(1, 'days');;
+                            date = moment(weekdate.date).add(1, 'days');
                             weeklyInfo = weekdate.weeklyInfo;
                         }
-                        $scope.month = month;
+                        //$scope.month = month;
+						 console.log(month);
+                    candidate={"userName":responseDetails.userdetails[0].email_id,"diableForAdmin":false,"data":month};
+                    //candidate[$scope.wuname]=month;
+                    candidates.push(candidate);
+                    console.log(candidate);
+                     console.log(candidates);
+                    //  var name=$scope.wuname;
+                    // candidate[name].push(month);
+                    console.log(candidates);
+                    $scope.month = candidates;
+                    console.log($scope.month);
                     });
 
                     /*document.getElementById("addproject").style.display = "none";
@@ -635,7 +648,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             weeks = [];
             month = [];
             weeklyInfo = [];
-            downloadWeeklyInfo=[];
             candidate={};
             candidates=[];
             var str = "";
@@ -647,7 +659,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
-                        downloadWeeklyInfo=details.weektrackdetails.weekdetailsarray;
                         
                     }
                     for (var i = 0; i < weekTotal; i++) {
@@ -661,7 +672,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                         console.log(weeklyInfo);
                     }
                     console.log(month);
-                    candidate={"userName":$scope.wuname,"data":month};
+                    candidate={"userName": $scope.wuname,"diableForAdmin":false,"data":month};
                     //candidate[$scope.wuname]=month;
                     candidates.push(candidate);
                     console.log(candidate);
@@ -673,13 +684,15 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     console.log($scope.month);
                 }else
                 {
+                    $scope.disableForAdmin=false;
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
+
                     }
                     var sortWeeklyInfo={};
                     for(i=0;i<weeklyInfo.length;i++)
                     {
-                        var name=weeklyInfo[i].u_name;
+                        var name=weeklyInfo[i].email_id;
                         if(typeof (sortWeeklyInfo[name])=="undefined"){
                             sortWeeklyInfo[name]=[];
                         }
@@ -695,13 +708,15 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                                 date = moment(weekdate.date).add(1, 'days');
                                 weeklyInfo = weekdate.weeklyInfo;
                             }
-                            candidate={"userName":key,"data":month};
+                            candidate={"userName":key,"diableForAdmin":true,"data":month};
                             month = [];
                             weeklyInfo = [];
                             date=startDayOfFirstWeek;
                             candidates.push(candidate);
                     });
+                    
                    $scope.month = candidates;
+
                 }
             });
         }else if(angular.isUndefined($scope.wyear)){
@@ -797,7 +812,10 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 
     $scope.submit = function(){
         if($scope.newtrack.date !=null && $scope.newtrack.description !=null && $scope.newtrack.hours !=null && $scope.newtrack.projectinfo !=null){
-            description=encodeURIComponent($scope.newtrack.description);
+            $scope.showDialog = true;
+			$scope.submitmsg = "Submitted Successfully";
+			//alert("Submitted Successfully");
+			description=encodeURIComponent($scope.newtrack.description);
             if(angular.isUndefined($scope.newtrack.minutes)){
                 $scope.newtrack.minutes = '00' ;
             }
@@ -931,7 +949,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 	 $scope.exportData = function (userdetails) {
 		if(userdetails.length > 0){
         //alasql.promise('SELECT * INTO XLS("timetrack.xls",{headers:true}) FROM HTML("#exportable", {headers:true})');
-            alasql('SELECT project_name, u_name, hours, description, email_id, date, updated_date INTO XLS("timetrack.xls",{headers:true}) FROM ?',[userdetails]);
+            alasql('SELECT u_name as UserName,email_id as EmailId, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("timetrack.xls",{headers:true}) FROM ?',[userdetails]);
 
         }else{
 			//console.log(userdetails.length);
@@ -1057,17 +1075,17 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         opened: false
     };
     $scope.downloadData = function(){
+        alert();
         lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
         startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
-        TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
-            if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
+            TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
+
                 console.log(lastDayOfLastWeek);
                 console.log(startDayOfFirstWeek);
-                console.log($scope.wuname);
                 console.log(details.weektrackdetails.weekdetailsarray);
-                alasql('SELECT user_id,u_name,email_id,location, project_name, date,hours,updated_date INTO XLS("weektrack.xls",{headers:true}) FROM ?',[details.weektrackdetails.weekdetailsarray]);
-            }
-        });
+                alasql('SELECT empno as EmployeeNumber,user_id as UserId,u_name as UserName,email_id as EmailId,country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("weektrack.xls",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
+
+            });
         //alasql('SELECT uid,uname,email_id,date,hours INTO XLS("weektrack.xls",{headers:true}) FROM  ?',[downloadDetailsArray]);
 
     };

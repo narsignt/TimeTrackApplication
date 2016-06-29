@@ -46,6 +46,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
     //saveSessionUsersAudit($Session_Id,'Logged in', 'Time Tracker');
     if ($conn) {
         //echo "connecion---".$conn ."YYYYYYYYY";
+        $empNum="UPDATE users SET empno=$empno WHERE user_id = '$user_id'";
+        mysql_query($empNum);
         $projectquery = "SELECT * FROM  `projects` where status =1 ORDER BY project_name";
         $projectexecution = mysql_query($projectquery) or die("Error while selecting projects " . mysql_error());
         $userquery = "select user_id,email_id,u_name,country,empno,role from users where user_id = '$user_id' ";

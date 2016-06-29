@@ -143,8 +143,8 @@
 									</td>
 									<td class="change-color"  ng-style="getSumOfWeekHours(week) === 0 && {'background-color':'yellow'} || getSumOfWeekHours(week) === 40 && {'background-color':'#fafafa'}   ||  getSumOfWeekHours(week) <= 40 && {'background-color':'yellow'}  || getSumOfWeekHours(week) > 40 && {'background-color':'red'}  ||  getSumOfWeekHours(week) === 39 && {'background-color':'yellow'}" >{{getSumOfWeekHours(week)}}</td>
 									<td>
-										<button type="button" title="Save" class="savefield" ng-click="updateWeek(week)" data-toggle="modal" data-target="#saveWeekModal"><span class="glyphicon glyphicon-saved"></span></button>
-										<div class="modal fade" id="saveWeekModal" role="dialog" ng-show="showWeekDialog">
+										<button type="button" title="Save" class="savefield" ng-style="key.diableForAdmin === true && {'background-color':'lightgrey'} || key.diableForAdmin === false && {'background-color':'#408bd0'}" ng-disabled="key.diableForAdmin" ng-click="updateWeek(week)" data-toggle="modal" data-target="#saveWeekModal"><span class="glyphicon glyphicon-saved"></span></button>
+										<div class="modal fade" id="saveWeekModal" role="dialog" ng-if="showWeekDialog">
 											<div class="modal-dialog">
 												<div class="modal-content" style="width: 48%;height: 107px;margin: 0 auto;">
 													<p style="margin-top: 21px; margin-left: 10px;" ng-bind="weekmsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
