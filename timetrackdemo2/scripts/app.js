@@ -641,7 +641,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     };
                     var indianuser ={
                         "user_id" : "indianuser",
-                        "u_name" : "Indian Users"
+                        "u_name" : "India Users"
                     };
                     var ususer ={
                         "user_id" : "ususer",
@@ -705,14 +705,17 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             candidates=[];
             var str = "";
             date = startDayOfFirstWeek;
+            if(weekTotal>4){
+                alert("Data has been exceed 4Weeks, Please click on Download data to see");
+                $scope.admintodate=moment(new Date()).format('YYYY-MM-DD');
+                $scope.adminfromdate=moment(new Date()).subtract(1,'months').format('YYYY-MM-DD');
+                startDayOfFirstWeek=moment(new Date()).subtract(1,'months').startOf('week').toDate();
+                lastDayOfLastWeek=moment(new Date()).endOf('week').toDate();
+                date = startDayOfFirstWeek;
+                weekTotal=(moment(lastDayOfLastWeek).diff(moment(startDayOfFirstWeek), 'days') + 1)/7;
+            }
             TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
                 //console.log(details);
-                debugger;
-                if(weekTotal>4){
-                    alert("Displays Only 4 Weeks of data.To get more Click on Download data");
-                    $scope.admintodate=moment(new Date()).format('YYYY-MM-DD');
-                    $scope.adminfromdate=moment(new Date()).subtract(1,'months').format('YYYY-MM-DD');
-                }
                 if($scope.wuname !="alluser" && $scope.wuname !="indianuser" && $scope.wuname !="ususer") {
                     if (details.weektrackdetails.message === "Records found successfully") {
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
@@ -743,7 +746,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 }else
                 {
 
-                    $scope.disableForAdmin=false;
+
                     if (details.weektrackdetails.message === "Records found successfully") {
 
                         weeklyInfo = details.weektrackdetails.weekdetailsarray;
@@ -778,7 +781,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                             date=startDayOfFirstWeek;
                             candidates.push(candidate);
                     });
-                    $scope.disableForAdmin=true;
                    $scope.month = candidates;
 
                 }

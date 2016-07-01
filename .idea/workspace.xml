@@ -2,8 +2,73 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="431cf11a-2dd7-4b40-b975-5fe5df569065" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DevWork/PersonApiChanging.html" afterPath="$PROJECT_DIR$/DevWork/PersonApiChanging.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrack/scripts/app.js" afterPath="$PROJECT_DIR$/timetrack/scripts/app.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/.idea/TimeTrackStage.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/.idea/timetrack.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/audi_session.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/connection.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/css/bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/css/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/css/style.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/delete_timetrack_record.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/Metallic-Silver.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/header_images.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/search.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/sort_asc.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/sort_both.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/submit.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/images/top-bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/projectinsert.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/projectupdate.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/alasql.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular-animate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular-confirm.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular-cookies.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular-moment.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular-route.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular-ui-router.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/angular1.5.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/app.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/app1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/app2.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/bootbox.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/dirPagination.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/jquery-1.9.1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/jquery.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/moment.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/ng-table.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/ui-bootstrap-0.7.0.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/ui-bootstrap-tpls-0.14.3.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/scripts/xlsx.core.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/sendmail.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/testing week.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/testing.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/timetrack.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/timetrackInsert.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/timetrack_backup.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/track.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/update_week.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/update_week1.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/week_track 1.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TimeTrackStage/timetrackdemo/week_track.php" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrackdemo2/.idea/workspace.xml" afterPath="$PROJECT_DIR$/timetrackdemo2/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrackdemo2/css/style.css" afterPath="$PROJECT_DIR$/timetrackdemo2/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetrackdemo2/scripts/app.js" afterPath="$PROJECT_DIR$/timetrackdemo2/scripts/app.js" />
     </list>
     <ignored path="TimeTrackApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,29 +93,9 @@
       <file leaf-file-name="track.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/timetrack/track.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1070">
+            <state relative-caret-position="1845">
               <caret line="123" column="54" selection-start-line="123" selection-start-column="54" selection-end-line="123" selection-end-column="54" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="update_week.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/timetrack/update_week.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1440">
-              <caret line="96" column="47" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="47" />
-              <folding>
-                <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
-                <marker date="1466423498000" expanded="true" signature="825:929" ph="update time_... " />
-                <marker date="1466423498000" expanded="true" signature="1285:1358" ph="select user_... users" />
-                <marker date="1466423498000" expanded="true" signature="2139:2339" ph="SELECT t . *... time_entry" />
-                <marker date="1466423498000" expanded="true" signature="3847:4076" ph="SELECT t . *... time_entry" />
-                <marker date="1466423498000" expanded="true" signature="5316:5414" ph="insert into users... " />
-                <marker date="1466423498000" expanded="true" signature="5470:5543" ph="select user_... users" />
-                <marker date="1466423498000" expanded="true" signature="6061:6289" ph="SELECT t . *... time_entry" />
-                <marker date="1466423498000" expanded="true" signature="7501:7700" ph="SELECT t . *... time_entry" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -68,7 +113,7 @@
       <file leaf-file-name="PersonApiChanging.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DevWork/PersonApiChanging.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
+            <state relative-caret-position="975">
               <caret line="65" column="37" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="37" />
               <folding />
             </state>
@@ -78,8 +123,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/timetrack/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2280">
-              <caret line="324" column="4" selection-start-line="324" selection-start-column="4" selection-end-line="324" selection-end-column="4" />
+            <state relative-caret-position="276">
+              <caret line="790" column="17" selection-start-line="790" selection-start-column="11" selection-end-line="790" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -192,7 +237,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1440" />
-    <option name="height" value="816" />
+    <option name="height" value="817" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -234,52 +279,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="timetrack" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="timetrack" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scripts" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeTrackApplication" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DevWork" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -346,14 +345,15 @@
       <workItem from="1466916731772" duration="596000" />
       <workItem from="1466939974370" duration="598000" />
       <workItem from="1467000266633" duration="5524000" />
+      <workItem from="1467366237354" duration="886000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38943000" />
+    <option name="totallyTimeSpent" value="39829000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="816" extended-state="6" />
+    <frame x="0" y="22" width="1440" height="817" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18888889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -393,6 +393,116 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/timetrack/track.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1845">
+          <caret line="123" column="54" selection-start-line="123" selection-start-column="54" selection-end-line="123" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/update_week.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="47" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="47" />
+          <folding>
+            <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="825:929" ph="update time_... " />
+            <marker date="1466423498000" expanded="true" signature="1285:1358" ph="select user_... users" />
+            <marker date="1466423498000" expanded="true" signature="2139:2339" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="3847:4076" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="5316:5414" ph="insert into users... " />
+            <marker date="1466423498000" expanded="true" signature="5470:5543" ph="select user_... users" />
+            <marker date="1466423498000" expanded="true" signature="6061:6289" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="7501:7700" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/connection.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DevWork/PersonApiChanging.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="65" column="37" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DevWork/BackupOfToolsTimetrack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/week_track.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="27" />
+          <folding>
+            <marker date="1466586922000" expanded="true" signature="270:627" ph="SELECT u.u_n... time_entry" />
+            <marker date="1466586922000" expanded="true" signature="1066:1170" ph="SELECT * FRO... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/timetrack.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="25" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="25" />
+          <folding>
+            <marker date="1466513775000" expanded="true" signature="995:1058" ph="SELECT * FRO... projects" />
+            <marker date="1466513775000" expanded="true" signature="1197:1270" ph="select user_... users" />
+            <marker date="1466513775000" expanded="true" signature="3946:4173" ph="SELECT t . *... time_entry" />
+            <marker date="1466513775000" expanded="true" signature="6108:6308" ph="SELECT t . *... time_entry" />
+            <marker date="1466513775000" expanded="true" signature="7649:7747" ph="insert into users... " />
+            <marker date="1466513775000" expanded="true" signature="7832:7905" ph="select user_... users" />
+            <marker date="1466513775000" expanded="true" signature="9801:10028" ph="SELECT t . *... time_entry" />
+            <marker date="1466513775000" expanded="true" signature="11781:11980" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrack/timetrackInsert.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1466423501000" expanded="true" signature="413:474" ph="SELECT COUNT... time_entry" />
+            <marker date="1466423501000" expanded="true" signature="672:820" ph="update time_... " />
+            <marker date="1466423501000" expanded="true" signature="866:1040" ph="insert into time_entry... " />
+            <marker date="1466423501000" expanded="true" signature="1075:1254" ph="insert into time_entry... " />
+            <marker date="1466423501000" expanded="true" signature="1503:1576" ph="select user_... users" />
+            <marker date="1466423501000" expanded="true" signature="3080:3307" ph="SELECT t . *... time_entry" />
+            <marker date="1466423501000" expanded="true" signature="5456:5656" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/timetrack/track.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -737,7 +847,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/timetrack/track.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1070">
+        <state relative-caret-position="1845">
           <caret line="123" column="54" selection-start-line="123" selection-start-column="54" selection-end-line="123" selection-end-column="54" />
           <folding />
         </state>
@@ -745,16 +855,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DevWork/PersonApiChanging.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
+        <state relative-caret-position="975">
           <caret line="65" column="37" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timetrackdemo/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="827" column="31" selection-start-line="827" selection-start-column="3" selection-end-line="827" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/timetrack/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2280">
-          <caret line="324" column="4" selection-start-line="324" selection-start-column="4" selection-end-line="324" selection-end-column="4" />
+        <state relative-caret-position="276">
+          <caret line="790" column="17" selection-start-line="790" selection-start-column="11" selection-end-line="790" selection-end-column="17" />
           <folding />
         </state>
       </provider>

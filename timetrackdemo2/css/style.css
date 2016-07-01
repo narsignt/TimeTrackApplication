@@ -494,7 +494,7 @@ button[disabled], html input[disabled] {
 	height:30px;
 	color: #585858;
 }
-#userdetails,#exportData,#aweekdetails,#adminexportData{
+#userdetails,#exportData,#aweekdetails,#adminexportData,#auditlog{
 	width: 13.5%;float: left;border-radius: 3px;
 	border: 1px solid #CAC7C7;color: #fff;
 	text-shadow: 0 1px 0 rgba(0,0,0,.4);border-color: rgba(0,0,0,.1);
@@ -641,3 +641,14 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }*/
+
+.nav-tabs>li>a:hover {
+    background-color: #aac0d8 !important;
+    color: #fff !important;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    border: 0px solid #ddd !important;
+    color: #fff !important;
+    background-color: #63a0d8 !important;
+}
+#myTab{background-color: #eee !important;}
