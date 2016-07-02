@@ -12,9 +12,24 @@ $description=$_POST['description'];
 $description=urldecode($description);
 $track_id=$_POST['track_id'];
 //$randomfield=$_GET['randomfield'];
-
-
+//$user_id = preg_replace('/[^A-Za-z0-9\-]/', '', $user_id);
+//$user_id=(int)$user_id;
+//$user_id=$user_id/100;
+//echo "\n";
+//echo $date;
+//echo "\n";
+//echo $projectid;
+//echo "\n";
+//echo $user_id;
+//echo "\n";
+//echo $hours;
+//echo "\n";
+//echo $minutes;
+//echo "\n";
+//echo $description;
+//echo "\n";
 $exec_query;
+
 if(!empty($track_id)){
     $count_sql =  "SELECT COUNT( * ) FROM  `time_entry` WHERE  `id` ='$track_id'";
     $count_exec = mysql_query($count_sql) or die("Error while selecting user information" . mysql_error());
@@ -115,7 +130,7 @@ if(!empty($track_id)){
     	// no userdetails found
             $response["success"] = 0;
             $response["message"] = "Failed to insert";
-            echo json_encode($response);
+            //echo json_encode($response);
 	}
 	echo json_encode($response);
 	

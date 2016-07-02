@@ -29,6 +29,7 @@
     <ul id="myTab" class="nav nav-tabs tab">
         <li class="active"><a data-toggle="tab" href="#week" class="tab_color" onclick="weekFunction()">Week</a></li>
         <li><a data-toggle="tab" href="#day" class="tab_color" onclick="dayFunction()">Day</a></li>
+		<li ng-show="isadmin"><a data-toggle="tab" href="#audittrail" class="tab_color" onclick="audittrailFunction()">Audit Log</a></li>
     </ul>
 	<div id = "myTabContent" class="tab-content"> <!--tab content start -->
 
@@ -168,12 +169,12 @@
 
 							<fieldset style="padding:15px;border:1px solid #D9D9D9;">
 								<legend style="width:28%;border-bottom:0;">Enter Daily Task Updates</legend>
-								<input type="hidden" ng-model="uid">
 								<input type="hidden" ng-model="track_id">
 								<input type="hidden" ng-model="uname">
 								<input type="hidden" ng-model="startDayOfFirstWeek">
 								<input type="hidden" ng-model="lastDayOfLastWeek">
 								<input type="hidden" ng-model="weekTotal">
+								<input type="hidden" ng-model="sessionid">
 
 								<form  method="post" id="myform" name="myform" novalidate> <!-- form start -->
 									<ol>
@@ -246,8 +247,8 @@
 												<input class="form-control" type="text" placeholder="Enter Project Name"  ng-minlength="1"  no-special-char ng-model="projectname" style="float:left;width:200px" />
 												<input class="track-submit" type="submit" id="projectsubmit" ng-click="projectsubmit()" style="float:left;" value="Save"/>
 											</div>
-											<!--<input class="track-delete"  type="button" id="deleteproject"   value="Delete Project" ng-click="deleteproject()"/>-->
-											<!--<div class="modal fade" id="deletetitle" role="dialog" ng-if="deleteDialog">
+											<input class="track-delete" ng-model="projectname" type="button" id="deleteproject"   value="Delete Project" ng-click="deleteproject()"/>
+											<div class="modal fade" id="deletetitle" role="dialog" ng-if="deleteDialog">
 												<div class="modal-dialog">
 													<div class="modal-content" style="width: 51%;height: 107px; margin: 0 auto;">
 														<p style="margin-top: 21px;margin-left:6px;color:black;" ng-bind="deletemsg"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></p>
@@ -256,7 +257,7 @@
 														</div>
 													</div>
 												</div>
-											</div>-->
+											</div>
 										</div>
 										<div style="clear:both"></div>
 										</li>
@@ -400,52 +401,105 @@
 					<div class="clr"></div>
 
 				</div> <!--day end -->
+				<div ng-show="isadmin" id="audittrail" class="tab-pane fade"> <!--audittrail start -->
+					<div class="time-tracker-auditdetails" style="margin-right:20px;">
+							<div ng-show="isadmin" class="timetracker-calendar" style="margin-top: -4px;">
+								<p style="margin-top: -2px;color: #3778c7;font-size: 15px;">From Date</p>
+								<p class="input-group">
+									<input style="height: 31px;" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="logfrom" is-open="status1.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+									<span class="input-group-btn">
+										<button style="margin-top: 0px;height: 31px;" type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</p>
+							</div>
+							<div ng-show="isadmin" class="timetracker-calendar">
+								<p style="margin-top: -6px;color: #3778c7;font-size: 15px;">To Date</p>
+								<p class="input-group">
+									<input style="height: 31px;" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="logto" is-open="status2.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+									<span class="input-group-btn">
+										<button style="margin-top: 0px;height: 31px;" type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</p>
+							</div>
+							<input ng-show="isadmin" type="button" id="audittrail" ng-click="auditlog()" value="Generate AuditTrail Log" style="height: 32px;margin-top: -5px;width: 16%;"/>
+					</div>
+							<table class="table table-striped table-hover">
+								<thead>
+										<tr>
+											<th ng-click="sort('UserName')">User Name
+												<span class="glyphicon sort-icon" ng-show="sortKey=='UserName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th ng-click="sort('LoginTime')">Login Time
+												<span class="glyphicon sort-icon" ng-show="sortKey=='LoginTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<!--<th ng-click="sort('Session_Id')">Session Id
+												<!--<span class="glyphicon sort-icon" ng-show="sortKey=='Session_Id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>-->
+											<th ng-click="sort('Time_Stamp')">Time Stamp
+												<span class="glyphicon sort-icon" ng-show="sortKey=='Time_Stamp'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th  ng-click="sort('ActionTaken')">Action Taken
+												<span class="glyphicon sort-icon" ng-show="sortKey=='ActionTaken'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th ng-click="sort('AccessArea')">Access Area
+												<span class="glyphicon sort-icon" ng-show="sortKey=='AccessArea'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+											<th ng-click="sort('performed_data')">Performed Data
+												<span class="glyphicon sort-icon" ng-show="sortKey=='performed_data'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+											</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr ng-repeat="audit in auditlogdetails|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+											<td>{{audit.UserName}}</td>
+											<td>{{audit.LoginTime}}</td>
+											<!--<td>{{audit.Session_Id}}</td>-->
+											<td>{{audit.Time_Stamp}}</td>
+											<td>{{audit.ActionTaken}}</td>
+											<td>{{audit.AccessArea}}</td>
+											<td>{{audit.performed_data}}</td>
+										</tr>
+										</tbody>	
+										<dir-pagination-controls
+											max-size="15"
+											direction-links="true"
+											boundary-links="true" >
+									</dir-pagination-controls>
+							</table>
+							
+				</div> <!--audittrail end -->
 			</div> <!-- content end-->
 		</div> <!-- main end-->
 	</div> <!--tab content end -->
 </div>
 <script>
-	/*function dayFunction() {
-		var y= document.getElementById("week");
-		var x= document.getElementById("day");
-		var z= document.getElementById("report");
-		x.style.display= "block";
-		y.style.display= "none";		
-		z.style.display= "none";
-	}
-
-	function weekFunction() {
-		var x= document.getElementById("day");
-		var y= document.getElementById("week");
-		var z= document.getElementById("report");
-		y.style.display= "block";
-		x.style.display= "none";	
-		z.style.display= "none";
-	}
-	function reportFunction() {
-		var x= document.getElementById("day");
-		var y= document.getElementById("week");
-		var z= document.getElementById("report");
-		z.style.display= "block";
-		x.style.display= "none";
-		y.style.display= "none";
-		
-	}*/
-
-
+	
 	function dayFunction() {
-		var y= document.getElementById("week");
-		var x= document.getElementById("day");
-        x.style.display= "block";
-		y.style.display= "none";
+		var week= document.getElementById("week");
+		var day= document.getElementById("day");
+		var audittrail= document.getElementById("audittrail");
+        day.style.display= "block";
+		week.style.display= "none";
+		audittrail.style.display= "none";
 
 	}
 
 	function weekFunction() {
-		var x= document.getElementById("day");
-		var y= document.getElementById("week");
-        y.style.display= "block";
-		x.style.display= "none";
+		var day= document.getElementById("day");
+		var week= document.getElementById("week");
+		var audittrail= document.getElementById("audittrail");
+        week.style.display= "block";
+		day.style.display= "none";
+		audittrail.style.display= "none";
+
+	}
+	function audittrailFunction() {
+		var day= document.getElementById("day");
+		var week= document.getElementById("week");
+		var audittrail= document.getElementById("audittrail");
+        week.style.display= "none";
+		day.style.display= "none";
+		audittrail.style.display= "block";
 
 	}
 

@@ -84,8 +84,31 @@ app.service('TaskService',function($http, $q, $log){
             return totaltimetrack;
         }
     }
-    this.saveNewTrack = function(newtrack,uid,description,sessionid){
+    this.saveNewTrack = function(newtrack,description,user_id,sessionid){
+        console.log(user_id+"dd");
+        debugger;
+        alert(user_id.replace(/%00/, ""));
         var deferred = $q.defer();
+        var dataObj = {
+                "date": newtrack.date,
+                "projectid": newtrack.projectinfo,
+                "hours": newtrack.hours,
+                "minutes": newtrack.minutes,
+                "description": description,
+                "track_id": newtrack.track_id,
+                "sessionid":sessionid,
+                'user_id':user_id
+        };
+        //$http.get('/timetrackdemo2/timetrackInsert.php', dataObj).
+        // $http.post('/timetrackdemo2/timetrackInsert.php?hours='+newtrack.hours+'&user_id='+user_id+'&date='+newtrack.date+'&projectid='+newtrack.projectinfo+'&minutes='+newtrack.minutes+'&description='+description+'&track_id='+newtrack.track_id+'&sessionid='+sessionid).
+        // success(function(response, status, headers, config) {
+        //     deferred.resolve({
+        //         response: response
+        //     });
+        // })
+        // .error(function(data, status, headers, config) {
+        //     alert( "failure message: " + JSON.stringify({data: data}));
+        // });
         $http({
             method: 'POST',
             url: '/timetrackdemo2/timetrackInsert.php',
@@ -95,18 +118,24 @@ app.service('TaskService',function($http, $q, $log){
             transformRequest: function(obj) {
                 var str = [];
                 for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    if(p == "user_id"){
+                        var user_id =encodeURIComponent(obj[p]);
+                        str.push(encodeURIComponent(p) + "=" + user_id.replace('%00%00',''));
+                    }else{
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+
                 return str.join("&");
             },
             data: {
-                'date': newtrack.date,
-                'projectid': newtrack.projectinfo,
-                'hours': newtrack.hours,
-                'minutes': newtrack.minutes,
-                'user_id': uid,
-                'description': description,
-                'track_id': newtrack.track_id,
-                'sessionid':sessionid
+                "date": newtrack.date,
+                "projectid": newtrack.projectinfo,
+                "hours": newtrack.hours,
+                "minutes": newtrack.minutes,
+                "description": description,
+                "track_id": newtrack.track_id,
+                "sessionid":sessionid,
+                'user_id':user_id
             }
         })
             .success(function(response, status, headers, config) {
@@ -552,6 +581,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         // Create Base64 Object
         var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
         $scope.uid = Base64.decode(details.userdetails.user_id);
+
         $scope.uname = Base64.decode(details.userdetails.uname);
 		$scope.UserName = Base64.decode(details.userdetails.UserName);
 
@@ -706,7 +736,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             var str = "";
             date = startDayOfFirstWeek;
             if(weekTotal>4){
-                alert("Data has been exceed 4Weeks, Please click on Download data to see");
+                alert("Data has exceeded 1 month. Please use the Download Data button to generate your report.");
                 $scope.admintodate=moment(new Date()).format('YYYY-MM-DD');
                 $scope.adminfromdate=moment(new Date()).subtract(1,'months').format('YYYY-MM-DD');
                 startDayOfFirstWeek=moment(new Date()).subtract(1,'months').startOf('week').toDate();
@@ -886,7 +916,9 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 $scope.newtrack.minutes = '00' ;
             }
             $scope.newtrack.date = $filter('date')($scope.newtrack.date, "yyyy-MM-dd");
-            TaskService.saveNewTrack($scope.newtrack,$scope.uid,description,$scope.sessionid).then(function(details){
+            console.log($scope.uid);
+
+            TaskService.saveNewTrack($scope.newtrack,description,$scope.uid,$scope.sessionid).then(function(details){
                 //$scope.userdetails = TaskService.list(details.response.timetrackdetails,details.response.userdetails);
                 $scope.userdetails = details.response.timetrackdetails;
 				$scope.entire_data = $scope.userdetails;

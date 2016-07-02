@@ -25,8 +25,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="1007" column="82" selection-start-line="1007" selection-start-column="82" selection-end-line="1007" selection-end-column="82" />
+            <state relative-caret-position="-1740">
+              <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -35,7 +35,7 @@
       <file leaf-file-name="track.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/track.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
+            <state relative-caret-position="2115">
               <caret line="141" column="100" selection-start-line="141" selection-start-column="100" selection-end-line="141" selection-end-column="100" />
               <folding>
                 <element signature="n#style#0;n#table#0;n#div#8;n#fieldset#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -47,7 +47,7 @@
       <file leaf-file-name="week_track.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/week_track.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="540">
               <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
               <folding>
                 <marker date="1466586922000" expanded="true" signature="270:627" ph="SELECT u.u_n... time_entry" />
@@ -59,7 +59,7 @@
       <file leaf-file-name="update_week.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/update_week.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-210">
+            <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
@@ -86,6 +86,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="timetrackInsert.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/timetrackInsert.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1200">
+              <caret line="86" column="117" selection-start-line="86" selection-start-column="117" selection-end-line="86" selection-end-column="117" />
+              <folding>
+                <marker date="1467383795000" expanded="true" signature="471:532" ph="SELECT COUNT... time_entry" />
+                <marker date="1467383795000" expanded="true" signature="730:878" ph="update time_... " />
+                <marker date="1467383795000" expanded="true" signature="924:1098" ph="insert into time_entry... " />
+                <marker date="1467383795000" expanded="true" signature="1133:1312" ph="insert into time_entry... " />
+                <marker date="1467383795000" expanded="true" signature="1561:1648" ph="select user_... users" />
+                <marker date="1467383795000" expanded="true" signature="3152:3399" ph="SELECT t . *... time_entry" />
+                <marker date="1467383795000" expanded="true" signature="5548:5768" ph="SELECT t . *... time_entry" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -97,6 +115,7 @@
         <option value="$PROJECT_DIR$/timetrack.php" />
         <option value="$PROJECT_DIR$/track.html" />
         <option value="$PROJECT_DIR$/scripts/app.js" />
+        <option value="$PROJECT_DIR$/timetrackInsert.php" />
       </list>
     </option>
   </component>
@@ -108,8 +127,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="202" />
-    <option name="y" value="83" />
+    <option name="x" value="241" />
+    <option name="y" value="43" />
     <option name="width" value="1312" />
     <option name="height" value="808" />
   </component>
@@ -138,7 +157,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -173,7 +192,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -232,17 +251,18 @@
       <workItem from="1466530909617" duration="7120000" />
       <workItem from="1466571321300" duration="4117000" />
       <workItem from="1466658117942" duration="14156000" />
+      <workItem from="1467376358980" duration="2791000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66647000" />
+    <option name="totallyTimeSpent" value="69438000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="202" y="83" width="1312" height="808" extended-state="0" />
+    <frame x="241" y="43" width="1312" height="808" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21570122" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2964939" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -272,6 +292,60 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/track.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2115">
+          <caret line="141" column="100" selection-start-line="141" selection-start-column="100" selection-end-line="141" selection-end-column="100" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#div#8;n#fieldset#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/week_track.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
+          <folding>
+            <marker date="1466586922000" expanded="true" signature="270:627" ph="SELECT u.u_n... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/update_week.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="825:929" ph="update time_... " />
+            <marker date="1466423498000" expanded="true" signature="1285:1358" ph="select user_... users" />
+            <marker date="1466423498000" expanded="true" signature="2139:2339" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="3847:4076" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="5316:5414" ph="insert into users... " />
+            <marker date="1466423498000" expanded="true" signature="5470:5543" ph="select user_... users" />
+            <marker date="1466423498000" expanded="true" signature="6061:6289" ph="SELECT t . *... time_entry" />
+            <marker date="1466423498000" expanded="true" signature="7501:7700" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/connection.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -441,7 +515,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/update_week.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-210">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <marker date="1466423498000" expanded="true" signature="552:660" ph="select count... time_entry" />
@@ -459,7 +533,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/week_track.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
+        <state relative-caret-position="540">
           <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
           <folding>
             <marker date="1466586922000" expanded="true" signature="270:627" ph="SELECT u.u_n... time_entry" />
@@ -469,7 +543,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/track.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
+        <state relative-caret-position="2115">
           <caret line="141" column="100" selection-start-line="141" selection-start-column="100" selection-end-line="141" selection-end-column="100" />
           <folding>
             <element signature="n#style#0;n#table#0;n#div#8;n#fieldset#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -477,10 +551,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/timetrackInsert.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="86" column="117" selection-start-line="86" selection-start-column="117" selection-end-line="86" selection-end-column="117" />
+          <folding>
+            <marker date="1467383795000" expanded="true" signature="471:532" ph="SELECT COUNT... time_entry" />
+            <marker date="1467383795000" expanded="true" signature="730:878" ph="update time_... " />
+            <marker date="1467383795000" expanded="true" signature="924:1098" ph="insert into time_entry... " />
+            <marker date="1467383795000" expanded="true" signature="1133:1312" ph="insert into time_entry... " />
+            <marker date="1467383795000" expanded="true" signature="1561:1648" ph="select user_... users" />
+            <marker date="1467383795000" expanded="true" signature="3152:3399" ph="SELECT t . *... time_entry" />
+            <marker date="1467383795000" expanded="true" signature="5548:5768" ph="SELECT t . *... time_entry" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="1007" column="82" selection-start-line="1007" selection-start-column="82" selection-end-line="1007" selection-end-column="82" />
+        <state relative-caret-position="-1740">
+          <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
           <folding />
         </state>
       </provider>
