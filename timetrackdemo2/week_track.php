@@ -11,7 +11,7 @@ if (!$conn) {
     die("Connection failed: " . mysql_connect_error());
 	
 }else{
-    $weeklydata = "SELECT u.u_name,u.country,u.empno, t.updated_date, t.user_id, t.hours, t.date, IFNULL( t.description,  '' ) description, t.updated_date, p.project_name, u.email_id, u.u_name,	
+    $weeklydata = "SELECT u.u_name,u.first_name,u.last_name,u.country,u.empno, t.updated_date, t.user_id, t.hours, t.date, IFNULL( t.description,  '' ) description, t.updated_date, p.project_name, u.email_id, u.u_name,	
 u.country,u.empno FROM  `time_entry` t
 LEFT JOIN projects p ON p.`project_id` = t.project_id
 LEFT JOIN users u ON t.`user_id` = u.user_id
@@ -23,7 +23,7 @@ WHERE t.week_mode =1 AND (date BETWEEN '$start_date' AND '$end_date')";
     }elseif($user_id == "ususer"){
         $weeklydata = $weeklydata." And country='USA' GROUP BY u.u_name, t.updated_date ORDER BY u.u_name, t.updated_date DESC";
     }else{
-        $weeklydata = "SELECT te.date,te.hours,IFNULL(te.description,'') as description, te.updated_date, u.user_id, u.email_id, p.project_name, u.u_name, u.country, u.empno FROM time_entry te
+        $weeklydata = "SELECT te.date,te.hours,IFNULL(te.description,'') as description, te.updated_date, u.user_id, u.email_id, p.project_name, u.u_name,u.first_name,u.last_name, u.country, u.empno FROM time_entry te
         LEFT JOIN projects p ON p.`project_id` = te.project_id
 Join users u on u.user_id = te.user_id
 WHERE te. week_mode=1 AND (date BETWEEN '$start_date' AND '$end_date') AND te.user_id=$user_id";

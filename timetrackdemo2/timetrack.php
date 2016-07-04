@@ -9,11 +9,15 @@ $email_id = $_GET['uname'];
 $u_name = $_GET['UserName'];
 $empno = $_GET['EmpNumber'];
 $country = $_GET['Country'];
+$givenName=$_GET['givenName'];
+$familyName=$_GET['familyName'];
 $user_id   = base64_decode($user_id);
 $email_id = base64_decode($email_id);
 $u_name = base64_decode($u_name);
 $empno = base64_decode($empno);
 $country = base64_decode($country);
+$givenName=base64_decode($givenName);
+$familyName=base64_decode($familyName);
 
 
 $url = "https://italent.jiveon.com/api/core/v3/people/" . $user_id;
@@ -46,11 +50,11 @@ if (($obj[error][status] != 404) && ($flag != true)) {
     saveSessionUsersAudit($Session_Id, 'Logged in', 'Home Page','');
     if ($conn) {
         //echo "connecion---".$conn ."YYYYYYYYY";
-        $empNum="UPDATE users SET empno=$empno WHERE user_id = '$user_id'";
-        mysql_query($empNum);
+        $updatequeryexec="UPDATE users SET empno=$empno,first_name=$givenName,last_name=$familyName WHERE user_id = '$user_id'";
+        mysql_query($updatequeryexec);
         $projectquery = "SELECT * FROM  `projects` where status =1 ORDER BY project_name";
         $projectexecution = mysql_query($projectquery) or die("Error while selecting projects " . mysql_error());
-        $userquery = "select user_id,email_id,u_name,country,empno,role from users where user_id = '$user_id' ";
+        $userquery = "select user_id,email_id,u_name,first_name,last_name,country,empno,role from users where user_id = '$user_id' ";
         $userqueryexec = mysql_query($userquery) or die("Error while selecting user information" . mysql_error());
         if (!empty($userqueryexec)) {     
             if (mysql_num_rows($userqueryexec) > 0) {
@@ -65,6 +69,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         $userdetails["user_id"]   = $row["user_id"];
                         $userdetails["email_id"] = $row["email_id"];
                         $userdetails["u_name"] = $row["u_name"];
+                        $userdetails["given_name"]=$row["first_name"];
+                        $userdetails["family_name"]=$row["last_name"];
 						$userdetails["country"] = $row["country"];
 						$userdetails["empno"] = $row["empno"];
                         $userdetails["role"]      = $row["role"];
@@ -79,6 +85,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                             $userdetails["user_id"]   = $row["user_id"];
                             $userdetails["email_id"] = $row["email_id"];
                             $userdetails["u_name"] = $row["u_name"];
+                            $userdetails["given_name"]=$row["first_name"];
+                            $userdetails["family_name"]=$row["last_name"];
 							$userdetails["country"] = $row["country"];
 							$userdetails["empno"] = $row["empno"];
                             $userdetails["role"]      = $row["role"];
@@ -96,7 +104,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                 }
                 if (strcmp($userrole, "Admin") !== 0) {
                     //$timetrackquery = "select id,user_id,project_id,date,hours,minutes,description,updated_date from time_entry where user_id = '$userid' ";
-                    $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country,IFNULL( u.empno,  '' ) empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
+                    $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name,u.first_name,u.last_name, u.country,IFNULL( u.empno,  '' ) empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
                     $timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
                     $response["timetrackdetails"] = array();
                     while ($row = mysql_fetch_array($timetrackexec)) {
@@ -111,6 +119,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         $timetrackdetails["description"]  = $row["description"];
                         $timetrackdetails["email_id"]    = $row["email_id"];
 						$timetrackdetails["u_name"]    = $row["u_name"];
+                        $timetrackdetails["given_name"]=$row["first_name"];
+                        $timetrackdetails["family_name"]=$row["last_name"];
 						$timetrackdetails["country"]    = $row["country"];
 						$timetrackdetails["empno"]    = $row["empno"];
                         $timetrackdetails["updated_date"] = $row["updated_date"];
@@ -124,7 +134,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                     Join users as u on u.user_id=te.user_id
                     group by te.user_id, te.id  order by te.updated_date desc"; */
                     ;
-                    $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
+                    $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name,u.first_name,u.last_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
                     $timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
                     $response["timetrackdetails"] = array();
                     while ($row = mysql_fetch_array($timetrackexec)) {
@@ -139,6 +149,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         $timetrackdetails["description"]  = $row["description"];
                         $timetrackdetails["email_id"]    = $row["email_id"];
 						$timetrackdetails["u_name"]    = $row["u_name"];
+                        $timetrackdetails["given_name"]= $row["first_name"];
+                        $timetrackdetails["family_name"]= $row["last_name"];
 						$timetrackdetails["country"]    = $row["country"];
 						$timetrackdetails["empno"]    = $row["empno"];
                         $timetrackdetails["updated_date"] = $row["updated_date"];
@@ -146,9 +158,9 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                     }
                 }
             } else {
-                $insert_sql = "insert into users (user_id, email_id, u_name,country,empno,role) values ($user_id,'$email_id','$u_name','$country',$empno,'user')";
+                $insert_sql = "insert into users (user_id, email_id, u_name,first_name,last_name,country,empno,role) values ($user_id,'$email_id','$u_name','$givenName','$familyName','$country',$empno,'user')";
                 if (mysql_query($insert_sql)) {
-                    $userquery = "select user_id,email_id,u_name,country,empno,role from users where user_id = '$user_id' ";
+                    $userquery = "select user_id,email_id,u_name,first_name,last_name,country,empno,role from users where user_id = '$user_id' ";
                     $userqueryexec = mysql_query($userquery) or die("Error while selecting user information" . mysql_error());
                     if (!empty($userqueryexec)) {
                         if (mysql_num_rows($userqueryexec) > 0) {
@@ -159,6 +171,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                 $userdetails["user_id"]   = $row["user_id"];
                                 $userdetails["email_id"] = $row["email_id"];
 								$userdetails["u_name"] = $row["u_name"];
+                                $userdetails["given_name"]=$row["first_name"];
+                                $userdetails["family_name"]=$row["last_name"];
 								$userdetails["country"] = $row["country"];
 								$userdetails["empno"]    = $row["empno"];
                                 $userdetails["role"]      = $row["role"];
@@ -175,7 +189,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                             }
                             if (strcmp($userrole, "Admin") !== 0) {
                                 //$timetrackquery = "select id,user_id,project_id,date,hours,minutes,description,updated_date from time_entry  where user_id = '$userid' ORDER BY t.updated_date DESC";
-                                $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
+                                $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name,u.first_name,u.last_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
                                 $timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
                                 $response["timetrackdetails"] = array();
                                 while ($row = mysql_fetch_array($timetrackexec)) {
@@ -191,6 +205,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                     $timetrackdetails["updated_date"] = $row["updated_date"];
                                     $timetrackdetails["email_id"]    = $row["email_id"];
 									$timetrackdetails["u_name"]    = $row["u_name"];
+                                    $timetrackdetails["given_name"]=$row["first_name"];
+                                    $timetrackdetails["family_name"]=$row["last_name"];
 									$timetrackdetails["country"]    = $row["country"];
 									$timetrackdetails["empno"]    = $row["empno"];
                                     array_push($response["timetrackdetails"], $timetrackdetails);
@@ -198,7 +214,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                 
                             } else {
                                 //$timetrackquery = "select id,user_id,project_id,date,hours,minutes,description,updated_date from time_entry group by user_id, id ";
-                                $timetrackquery = "SELECT t . * , p.project_name, u.email_id,u.u_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
+                                $timetrackquery = "SELECT t . * , p.project_name, u.email_id,u.u_name,u.first_name,u.last_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
                                 $timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
                                 $response["timetrackdetails"] = array();
                                 while ($row = mysql_fetch_array($timetrackexec)) {
@@ -214,6 +230,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                     $timetrackdetails["updated_date"] = $row["updated_date"];
                                     $timetrackdetails["email_id"]    = $row["email_id"];
 									$timetrackdetails["u_name"]    = $row["u_name"];
+                                    $timetrackdetails["given_name"]=$row["first_name"];
+                                    $timetrackdetails["family_name"]=$row["last_name"];
 									$timetrackdetails["country"]    = $row["country"];
 									$timetrackdetails["empno"]    = $row["empno"];
                                     array_push($response["timetrackdetails"], $timetrackdetails);
@@ -224,6 +242,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         } else {
                             $response["error"]   = 0;
                             $response["message"] = "User details not found";
+
                             
                         }
                         

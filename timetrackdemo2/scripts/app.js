@@ -56,7 +56,7 @@ app.service('TaskService',function($http, $q, $log){
     var totaltimetrack = [];
     var projectDetails;
     this.list = function(timetrackdetails,userdetails){
-        debugger;
+
         if(userdetails[0].role == "user"){
             angular.forEach(timetrackdetails, function(timetrack){
                 var tempData = {
@@ -69,6 +69,8 @@ app.service('TaskService',function($http, $q, $log){
                     "description" : timetrack.description,
                     "email_id" : timetrack.email_id,
                     "u_name" : timetrack.u_name,
+                    "family_name":timetrack.family_name,
+                    "given_name":timetrack.given_name,
                     "user_id" : timetrack.user_id,
                     "updated_date" : timetrack.updated_date,
                     "empno":timetrack.empno,
@@ -86,8 +88,6 @@ app.service('TaskService',function($http, $q, $log){
     }
     this.saveNewTrack = function(newtrack,description,user_id,sessionid){
         console.log(user_id+"dd");
-        debugger;
-        alert(user_id.replace(/%00/, ""));
         var deferred = $q.defer();
         var dataObj = {
                 "date": newtrack.date,
@@ -151,8 +151,8 @@ app.service('TaskService',function($http, $q, $log){
     }
 
 
-    this.timetrackInfo= function(uid,uname,UserName,EmpNumber,Country){
-        var url = "/timetrackdemo2/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&EmpNumber="+EmpNumber+"&Country="+Country;
+    this.timetrackInfo= function(uid,uname,UserName,givenName,lastName,EmpNumber,Country){
+        var url = "/timetrackdemo2/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&givenName"+givenName+"&familyName"+lastName+"&EmpNumber="+EmpNumber+"&Country="+Country;
         console.log("url "+url);
         var deferred = $q.defer();
         $http.get(url)
@@ -183,7 +183,12 @@ app.service('TaskService',function($http, $q, $log){
             transformRequest: function(obj) {
                 var str = [];
                 for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    if(p == "user_id"){
+                        var user_id =encodeURIComponent(obj[p]);
+                        str.push(encodeURIComponent(p) + "=" + user_id.replace('%00%00',''));
+                    }else{
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
                 return str.join("&");
             },
             data: {
@@ -232,7 +237,12 @@ app.service('TaskService',function($http, $q, $log){
             transformRequest: function(obj) {
                 var str = [];
                 for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    if(p == "user_id"){
+                        var user_id =encodeURIComponent(obj[p]);
+                        str.push(encodeURIComponent(p) + "=" + user_id.replace('%00%00',''));
+                    }else{
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
                 return str.join("&");
             },
             data: {
@@ -587,17 +597,17 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 
         //$scope.uid = details.userdetails.uid;
         //$scope.uname = details.userdetails.uname;
-        debugger;
+
         TaskService.getAuditLog(moment(new Date()).subtract(1,'days').format('YYYY-MM-DD'),moment(new Date()).format('YYYY-MM-DD')).then(function(auditDetails){
             $scope.auditlogdetails=auditDetails.auditResponse.sessionarray;
         });
-        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.EmpNumber,details.userdetails.Country).then(function(responseDetails){
+        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.givenName,details.userdetails.familyName,details.userdetails.EmpNumber,details.userdetails.Country).then(function(responseDetails){
             console.log(responseDetails);
 		   //$scope.newtrack.projectDetails = details.projectdetails
             if(responseDetails.totalresponse.error == "undefined"){
                 $window.location.href = 'https://italent.jiveon.com/welcome';
             }else{
-                debugger;
+
                 $scope.newtrack.projectDetails = TaskService.projectList(responseDetails.projectdetails);
                 $scope.sessionid = responseDetails.totalresponse.sessionid;
                 $scope.userdetails = TaskService.list(responseDetails.timetrackdetails,responseDetails.userdetails);
@@ -790,22 +800,28 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     for(i=0;i<weeklyInfo.length;i++)
                     {
                         var name=weeklyInfo[i].email_id;
+
                         if(typeof (sortWeeklyInfo[name])=="undefined"){
                             sortWeeklyInfo[name]=[];
                         }
                         sortWeeklyInfo[name].push(weeklyInfo[i]);
+
                     }
                     angular.forEach(sortWeeklyInfo,function(value,key){
+
                             if (details.weektrackdetails.message === "Records found successfully") {
                                 weeklyInfo = value;
+                                fname=value[0].first_name;
+                                lname=value[0].last_name;
                             }
+
                             for (var j = 0; j < weekTotal; j++) {
                                 weekdate = TaskService.individualweek(j, date, $scope.isadmin, weeklyInfo, details.weektrackdetails.message);
                                 month.push(weekdate.week);
                                 date = moment(weekdate.date).add(1, 'days');
                                 weeklyInfo = weekdate.weeklyInfo;
                             }
-                            candidate={"userName":key,"diableForAdmin":true,"data":month};
+                            candidate={"userName":key,"diableForAdmin":true,"data":month,"fname":fname,"lname":lname};
                             month = [];
                             weeklyInfo = [];
                             date=startDayOfFirstWeek;
@@ -864,7 +880,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             } else {
                 uid = $scope.uid;
             }
-
+            console.log();
             TaskService.weektrackInfo($scope.data, uid, $scope.isadmin, $scope.sessionid).then(function (details) {
                 if (details.weeklytrackdetails.message === "Updated Successfully") {
                     $scope.weekmsg = "Updated Successfully";
@@ -1050,10 +1066,10 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         if (!$scope.isadmin){
             extexelfileName = "TimeTrack_Day_" + $scope.UserName + ".xls";
         }
-
+        console.log(userdetails);
 		if(userdetails.length > 0){
         //alasql.promise('SELECT * INTO XLS("timetrack.xls",{headers:true}) FROM HTML("#exportable", {headers:true})');
-            alasql('SELECT u_name as UserName,email_id as EmailId, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?',[userdetails]);
+            alasql('SELECT given_name as FirstName,family_name as LastName,email_id as EmailId, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?',[userdetails]);
 
         }else{
 			//console.log(userdetails.length);
@@ -1200,7 +1216,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 }
             
                 
-                alasql('SELECT empno as EmployeeNumber, user_id as UserId, u_name as UserName, email_id as EmailId, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
+                alasql('SELECT empno as EmployeeNumber, user_id as UserId, first_name as FirstName, last_name as LastName, email_id as EmailId, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
                 //alasql('SELECT empno as EmployeeNumber, user_id as UserId, u_name as UserName, email_id as EmailId, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("weektrack_Week_.xls",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
 
             });

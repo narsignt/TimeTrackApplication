@@ -6,6 +6,7 @@ $json =  $_POST['data'];
 $user_id = $_POST['user_id'];
 $isadmin = $_POST['isadmin'];
 $sessionid = $_REQUEST['sessionid'];
+
 //echo $json;
 $str=str_replace("\\",'',(string)$json);
 //echo (string)$str. "</br></br>";
@@ -46,7 +47,7 @@ if (!$conn) {
 	}
 	//echo "yearmonthquery";
 	//$response["message"] = "Updated Successfully";
-	$userquery = "select user_id,email_id,u_name,country,empno,role from users where user_id = '$user_id' ";
+	$userquery = "select user_id,email_id,u_name,first_name,last_name,country,empno,role from users where user_id = '$user_id' ";
 	$userqueryexec = mysql_query($userquery) or die("Error while selecting user information" . mysql_error());
 	if (!empty($userqueryexec)) {
 		if (mysql_num_rows($userqueryexec) > 0) {
@@ -59,7 +60,7 @@ if (!$conn) {
 				//$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
 
 				//Admin query
-				$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country,u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
+				$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name,u.first_name,u.last_name, u.country,u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
 				$timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
 
 				$response["timetrackdetails"] = array();
@@ -75,6 +76,8 @@ if (!$conn) {
 					$timetrackdetails["description"]  = $row["description"];
 					$timetrackdetails["email_id"]    = $row["email_id"];
 					$timetrackdetails["u_name"]    = $row["u_name"];
+					$timetrackdetails["first_name"]    = $row["first_name"];
+					$timetrackdetails["last_name"]    = $row["last_name"];
 					$timetrackdetails["country"]    = $row["country"];
 					$timetrackdetails["empno"]    = $row["empno"];
 					$timetrackdetails["updated_date"] = $row["updated_date"];
@@ -88,7 +91,7 @@ if (!$conn) {
 				Join users as u on u.user_id=te.user_id
 				group by te.user_id, te.id  order by te.updated_date desc"; */
 				//user query
-				$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country,u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id = '$user_id' ORDER BY t.updated_date DESC";
+				$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name,u.first_name,u.last_name, u.country,u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id = '$user_id' ORDER BY t.updated_date DESC";
 				//$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
 				$timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
 				$response["timetrackdetails"] = array();
@@ -104,6 +107,8 @@ if (!$conn) {
 					$timetrackdetails["description"]  = $row["description"];
 					$timetrackdetails["email_id"]    = $row["email_id"];
 					$timetrackdetails["u_name"]    = $row["u_name"];
+					$timetrackdetails["first_name"]    = $row["first_name"];
+					$timetrackdetails["last_name"]    = $row["last_name"];
 					$timetrackdetails["country"]    = $row["country"];
 					$timetrackdetails["empno"]    = $row["empno"];
 					$timetrackdetails["updated_date"] = $row["updated_date"];
@@ -111,9 +116,10 @@ if (!$conn) {
 				}
 			}
 		} else {
-			$insert_sql = "insert into users (user_id, email_id, u_name, country,empno, role) values ($user_id,'$email_id','$u_name','$country','$empno','user')";
+			
+			$insert_sql = "insert into users (user_id, email_id, u_name,first_name,last_name, country,empno, role) values ($user_id,'$email_id','$u_name','$first_name','$country','$empno','user')";
 			if (mysql_query($insert_sql)) {
-				$userquery = "select user_id,email_id,u_name,role from users where user_id = '$user_id' ";
+				$userquery = "select user_id,email_id,u_name,first_name,last_name,role from users where user_id = '$user_id' ";
 				$userqueryexec = mysql_query($userquery) or die("Error while selecting user information" . mysql_error());
 				if (!empty($userqueryexec)) {
 					if (mysql_num_rows($userqueryexec) > 0) {
@@ -122,7 +128,7 @@ if (!$conn) {
 						if($isadmin === "false")
 						{
 							//$timetrackquery = "select id,user_id,project_id,date,hours,minutes,description,updated_date from time_entry  where user_id = '$userid' ORDER BY t.updated_date DESC";
-							$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$user_id' ORDER BY t.updated_date DESC";
+							$timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name,u.first_name,u.last_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$user_id' ORDER BY t.updated_date DESC";
 							$timetrackexec = mysql_query($timetrackquery) or die("Error while selecting time_entry " . mysql_error());
 							$response["timetrackdetails"] = array();
 							while ($row = mysql_fetch_array($timetrackexec)) {
@@ -138,6 +144,8 @@ if (!$conn) {
 								$timetrackdetails["updated_date"] = $row["updated_date"];
 								$timetrackdetails["email_id"]    = $row["email_id"];
 								$timetrackdetails["u_name"]    = $row["u_name"];
+								$timetrackdetails["first_name"]    = $row["first_name"];
+								$timetrackdetails["last_name"]    = $row["last_name"];
 								$timetrackdetails["country"]    = $row["country"];
 								$timetrackdetails["empno"]    = $row["empno"];
 								array_push($response["timetrackdetails"], $timetrackdetails);
@@ -161,6 +169,8 @@ if (!$conn) {
 								$timetrackdetails["updated_date"] = $row["updated_date"];
 								$timetrackdetails["email_id"]    = $row["email_id"];
 								$timetrackdetails["u_name"]    = $row["u_name"];
+								$timetrackdetails["first_name"]    = $row["first_name"];
+								$timetrackdetails["last_name"]    = $row["last_name"];
 								$timetrackdetails["country"]    = $row["country"];
 								$timetrackdetails["empno"]    = $row["empno"];
 								array_push($response["timetrackdetails"], $timetrackdetails);
