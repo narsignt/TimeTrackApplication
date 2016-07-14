@@ -11,6 +11,7 @@ $empno = $_GET['EmpNumber'];
 $country = $_GET['Country'];
 $givenName=$_GET['givenName'];
 $familyName=$_GET['familyName'];
+$userType=$_GET['userType'];
 $user_id   = base64_decode($user_id);
 $email_id = base64_decode($email_id);
 $u_name = base64_decode($u_name);
@@ -18,7 +19,7 @@ $empno = base64_decode($empno);
 $country = base64_decode($country);
 $givenName=base64_decode($givenName);
 $familyName=base64_decode($familyName);
-
+//$userType=base64_decode($userType);
 
 $url = "https://italent.jiveon.com/api/core/v3/people/" . $user_id;
 $ch  = curl_init();
@@ -50,7 +51,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
     saveSessionUsersAudit($Session_Id, 'Logged in', 'Home Page','');
     if ($conn) {
         //echo "connecion---".$conn ."YYYYYYYYY";
-        $updatequeryexec="UPDATE users SET empno=$empno,first_name=$givenName,last_name=$familyName WHERE user_id = '$user_id'";
+        $updatequeryexec="UPDATE users SET empno=$empno,country='$country',role='$userType' WHERE user_id = '$user_id'";
         mysql_query($updatequeryexec);
         $projectquery = "SELECT * FROM  `projects` where status =1 ORDER BY project_name";
         $projectexecution = mysql_query($projectquery) or die("Error while selecting projects " . mysql_error());
@@ -69,8 +70,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         $userdetails["user_id"]   = $row["user_id"];
                         $userdetails["email_id"] = $row["email_id"];
                         $userdetails["u_name"] = $row["u_name"];
-                        $userdetails["given_name"]=$row["first_name"];
-                        $userdetails["family_name"]=$row["last_name"];
+                        $userdetails["first_name"]=$row["first_name"];
+                        $userdetails["last_name"]=$row["last_name"];
 						$userdetails["country"] = $row["country"];
 						$userdetails["empno"] = $row["empno"];
                         $userdetails["role"]      = $row["role"];
@@ -85,8 +86,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                             $userdetails["user_id"]   = $row["user_id"];
                             $userdetails["email_id"] = $row["email_id"];
                             $userdetails["u_name"] = $row["u_name"];
-                            $userdetails["given_name"]=$row["first_name"];
-                            $userdetails["family_name"]=$row["last_name"];
+                            $userdetails["first_name"]=$row["first_name"];
+                            $userdetails["last_name"]=$row["last_name"];
 							$userdetails["country"] = $row["country"];
 							$userdetails["empno"] = $row["empno"];
                             $userdetails["role"]      = $row["role"];
@@ -119,8 +120,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         $timetrackdetails["description"]  = $row["description"];
                         $timetrackdetails["email_id"]    = $row["email_id"];
 						$timetrackdetails["u_name"]    = $row["u_name"];
-                        $timetrackdetails["given_name"]=$row["first_name"];
-                        $timetrackdetails["family_name"]=$row["last_name"];
+                        $timetrackdetails["first_name"]=$row["first_name"];
+                        $timetrackdetails["last_name"]=$row["last_name"];
 						$timetrackdetails["country"]    = $row["country"];
 						$timetrackdetails["empno"]    = $row["empno"];
                         $timetrackdetails["updated_date"] = $row["updated_date"];
@@ -149,8 +150,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                         $timetrackdetails["description"]  = $row["description"];
                         $timetrackdetails["email_id"]    = $row["email_id"];
 						$timetrackdetails["u_name"]    = $row["u_name"];
-                        $timetrackdetails["given_name"]= $row["first_name"];
-                        $timetrackdetails["family_name"]= $row["last_name"];
+                        $timetrackdetails["first_name"]= $row["first_name"];
+                        $timetrackdetails["last_name"]= $row["last_name"];
 						$timetrackdetails["country"]    = $row["country"];
 						$timetrackdetails["empno"]    = $row["empno"];
                         $timetrackdetails["updated_date"] = $row["updated_date"];
@@ -158,7 +159,7 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                     }
                 }
             } else {
-                $insert_sql = "insert into users (user_id, email_id, u_name,first_name,last_name,country,empno,role) values ($user_id,'$email_id','$u_name','$givenName','$familyName','$country',$empno,'user')";
+                $insert_sql = "insert into users (user_id, email_id, u_name,first_name,last_name,country,empno,role) values ($user_id,'$email_id','$u_name','$givenName','$familyName','$country',$empno,'$userType')";
                 if (mysql_query($insert_sql)) {
                     $userquery = "select user_id,email_id,u_name,first_name,last_name,country,empno,role from users where user_id = '$user_id' ";
                     $userqueryexec = mysql_query($userquery) or die("Error while selecting user information" . mysql_error());
@@ -171,8 +172,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                 $userdetails["user_id"]   = $row["user_id"];
                                 $userdetails["email_id"] = $row["email_id"];
 								$userdetails["u_name"] = $row["u_name"];
-                                $userdetails["given_name"]=$row["first_name"];
-                                $userdetails["family_name"]=$row["last_name"];
+                                $userdetails["first_name"]=$row["first_name"];
+                                $userdetails["last_name"]=$row["last_name"];
 								$userdetails["country"] = $row["country"];
 								$userdetails["empno"]    = $row["empno"];
                                 $userdetails["role"]      = $row["role"];
@@ -205,8 +206,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                     $timetrackdetails["updated_date"] = $row["updated_date"];
                                     $timetrackdetails["email_id"]    = $row["email_id"];
 									$timetrackdetails["u_name"]    = $row["u_name"];
-                                    $timetrackdetails["given_name"]=$row["first_name"];
-                                    $timetrackdetails["family_name"]=$row["last_name"];
+                                    $timetrackdetails["first_name"]=$row["first_name"];
+                                    $timetrackdetails["last_name"]=$row["last_name"];
 									$timetrackdetails["country"]    = $row["country"];
 									$timetrackdetails["empno"]    = $row["empno"];
                                     array_push($response["timetrackdetails"], $timetrackdetails);
@@ -230,8 +231,8 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                                     $timetrackdetails["updated_date"] = $row["updated_date"];
                                     $timetrackdetails["email_id"]    = $row["email_id"];
 									$timetrackdetails["u_name"]    = $row["u_name"];
-                                    $timetrackdetails["given_name"]=$row["first_name"];
-                                    $timetrackdetails["family_name"]=$row["last_name"];
+                                    $timetrackdetails["first_name"]=$row["first_name"];
+                                    $timetrackdetails["last_name"]=$row["last_name"];
 									$timetrackdetails["country"]    = $row["country"];
 									$timetrackdetails["empno"]    = $row["empno"];
                                     array_push($response["timetrackdetails"], $timetrackdetails);

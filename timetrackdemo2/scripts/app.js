@@ -69,8 +69,8 @@ app.service('TaskService',function($http, $q, $log){
                     "description" : timetrack.description,
                     "email_id" : timetrack.email_id,
                     "u_name" : timetrack.u_name,
-                    "family_name":timetrack.family_name,
-                    "given_name":timetrack.given_name,
+                    "first_name":timetrack. first_name,
+                    "last_name":timetrack.last_name,
                     "user_id" : timetrack.user_id,
                     "updated_date" : timetrack.updated_date,
                     "empno":timetrack.empno,
@@ -97,7 +97,7 @@ app.service('TaskService',function($http, $q, $log){
                 "description": description,
                 "track_id": newtrack.track_id,
                 "sessionid":sessionid,
-                'user_id':user_id
+                'user_id':user_id,
         };
         //$http.get('/timetrackdemo2/timetrackInsert.php', dataObj).
         // $http.post('/timetrackdemo2/timetrackInsert.php?hours='+newtrack.hours+'&user_id='+user_id+'&date='+newtrack.date+'&projectid='+newtrack.projectinfo+'&minutes='+newtrack.minutes+'&description='+description+'&track_id='+newtrack.track_id+'&sessionid='+sessionid).
@@ -151,8 +151,8 @@ app.service('TaskService',function($http, $q, $log){
     }
 
 
-    this.timetrackInfo= function(uid,uname,UserName,givenName,lastName,EmpNumber,Country){
-        var url = "/timetrackdemo2/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&givenName"+givenName+"&familyName"+lastName+"&EmpNumber="+EmpNumber+"&Country="+Country;
+    this.timetrackInfo= function(uid,uname,UserName,givenName,lastName,EmpNumber,Country,userType){
+        var url = "/timetrackdemo2/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&givenName="+givenName+"&familyName="+lastName+"&EmpNumber="+EmpNumber+"&Country="+Country+"&userType="+userType;
         console.log("url "+url);
         var deferred = $q.defer();
         $http.get(url)
@@ -367,6 +367,27 @@ app.service('TaskService',function($http, $q, $log){
             });
         return deferred.promise;
     }
+	this.getDownloadWeekData = function(user_id,start_date,end_date){
+		var deferred = $q.defer();
+		var url = "/timetrackdemo2/download_weekdata.php?user_id="+user_id+"&start_date="+start_date+"&end_date="+end_date;
+         $http.get(url);
+             //.success(function(response){
+                 //deferred.resolve({
+                    // weekdetailsarray: response
+
+                // });
+            // })
+            // // .success(function(response, status, headers, config) {
+                // // deferred.resolve({
+                    // // response: response
+                // // });
+            // // })
+            // // .error(function(response){
+                // // deferred.reject(response);
+                // // $log.error(response);
+            // // });
+        // return deferred.promise;
+	}
  //Added by sunil for get session log data
  this.getAuditLog = function(start_date,end_date){
     console.log(start_date);
@@ -601,7 +622,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         TaskService.getAuditLog(moment(new Date()).subtract(1,'days').format('YYYY-MM-DD'),moment(new Date()).format('YYYY-MM-DD')).then(function(auditDetails){
             $scope.auditlogdetails=auditDetails.auditResponse.sessionarray;
         });
-        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.givenName,details.userdetails.familyName,details.userdetails.EmpNumber,details.userdetails.Country).then(function(responseDetails){
+        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.givenName,details.userdetails.familyName,details.userdetails.EmpNumber,details.userdetails.Country,details.userdetails.userType).then(function(responseDetails){
             console.log(responseDetails);
 		   //$scope.newtrack.projectDetails = details.projectdetails
             if(responseDetails.totalresponse.error == "undefined"){
@@ -997,7 +1018,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     $scope.newtrack.projectDetails = TaskService.plist();
                     weeklyInfo = [];
                     month = [];
-
+                    candidate={};
+                    candidates=[];
                     if($scope.isadmin){
                         $scope.month =[];
                         $scope.wyear = "";
@@ -1015,7 +1037,10 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                             day = moment(weekdate.date).add(1, 'days');
                             weeklyInfo = weekdate.weeklyInfo;
                         }
-                        $scope.month = month;
+                        candidate={"userName": $scope.wuname,"diableForAdmin":false,"data":month};
+                        candidates.push(candidate);
+                        $scope.month = candidates;
+                        //$scope.month = month;
                     }
 
                 });
@@ -1069,7 +1094,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         console.log(userdetails);
 		if(userdetails.length > 0){
         //alasql.promise('SELECT * INTO XLS("timetrack.xls",{headers:true}) FROM HTML("#exportable", {headers:true})');
-            alasql('SELECT given_name as FirstName,family_name as LastName,email_id as EmailId, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?',[userdetails]);
+            alasql('SELECT empno as EmployeeNumber, first_name as FirstName,last_name as LastName,country as Country,email_id as email, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?',[userdetails]);
 
         }else{
 			//console.log(userdetails.length);
@@ -1199,27 +1224,31 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         $scope.selecteduser = $("#username option:selected").html();
         lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
         startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
-            TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
-
-                console.log(lastDayOfLastWeek);
-                console.log(startDayOfFirstWeek);
-                console.log(details.weektrackdetails.weekdetailsarray);
-                 var extexelfileName="TimeTrack_Week.xls";
-                if ($scope.wuname =="alluser"){
-                    extexelfileName ="TimeTrack_Week_AllUsers.xls";
-                }else if ($scope.wuname =="indianuser"){
-                    extexelfileName ="TimeTrack_Week_IndiaUsers.xls";
-                }else if ($scope.wuname =="ususer"){
-                    extexelfileName ="TimeTrack_Week_USAUsers.xls";
-                } else {
-                    extexelfileName = "TimeTrack_Week_" + $scope.selecteduser+ ".xls";
-                }
+		var url='/timetrackdemo2/download_weekdata.php?user_id='+$scope.wuname+'&start_date='+moment(startDayOfFirstWeek).format("YYYY-MM-DD")+'&end_date='+moment(lastDayOfLastWeek).format("YYYY-MM-DD");
+		//window.location=url;
+		//$location.href=url;
+		$window.location.href=url;
+            //TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
+			//TaskService.getDownloadWeekData($scope.wuname,moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"));	
+                // console.log(lastDayOfLastWeek);
+                // console.log(startDayOfFirstWeek);
+               // // console.log(details.weektrackdetails.weekdetailsarray);
+                 // var extexelfileName="TimeTrack_Week.xls";
+                // if ($scope.wuname =="alluser"){
+                    // extexelfileName ="TimeTrack_Week_AllUsers.xls";
+                // }else if ($scope.wuname =="indianuser"){
+                    // extexelfileName ="TimeTrack_Week_IndiaUsers.xls";
+                // }else if ($scope.wuname =="ususer"){
+                    // extexelfileName ="TimeTrack_Week_USAUsers.xls";
+                // } else {
+                    // extexelfileName = "TimeTrack_Week_" + $scope.selecteduser+ ".xls";
+                // }
             
                 
-                alasql('SELECT empno as EmployeeNumber, user_id as UserId, first_name as FirstName, last_name as LastName, email_id as EmailId, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
+               // alasql('SELECT empno as EmployeeNumber, first_name as FirstName, last_name as LastName, email_id as email, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
                 //alasql('SELECT empno as EmployeeNumber, user_id as UserId, u_name as UserName, email_id as EmailId, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("weektrack_Week_.xls",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
 
-            });
+            //});
         //alasql('SELECT uid,uname,email_id,date,hours INTO XLS("weektrack.xls",{headers:true}) FROM  ?',[downloadDetailsArray]);
 
     };

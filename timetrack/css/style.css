@@ -82,7 +82,7 @@ a.rm, a.com {
 	margin:0;
 	padding:0;
 	backgroun-image:url(images/Metallic-Silver.jpg);
-	/*border-bottom:1px solid #284a55;*/
+	border-bottom:1px solid #284a55;
 }
 .menu_nav {
 	margin:0;
@@ -431,7 +431,7 @@ th {
 	color:red;font-size: 15px;position: relative;top:1px;
 }
 .input-block-level{
-	height: 30px;float:left;width: 189px;margin-right: 8px;
+	height: 30px;float:left;width: 189px;margin-bottom: 10px; margin-right: 8px;
 }
 #addprojectdiv{
 	float:left;
@@ -455,15 +455,9 @@ th {
 	font-size:10px !important;
 	padding: 3px 6px !important;
 }
-/*
 button[disabled], html input[disabled] {
     background-color: #90909E;
 }
-*/
-.time-tracker-btns input[disabled],#week .time-tracker-weekdetails  input[disabled], #exportable .time-tracker-details input[disabled]{
-    background-color: #90909E;
-}
-
 @keyframes bg-anim{
  from{ background-position:center 0px;}
  to{ background-position:center -1000px;}
@@ -494,7 +488,7 @@ button[disabled], html input[disabled] {
 	height:30px;
 	color: #585858;
 }
-#userdetails,#exportData,#aweekdetails{
+#userdetails,#exportData{
 	width: 13.5%;float: left;border-radius: 3px;
 	border: 1px solid #CAC7C7;color: #fff;
 	text-shadow: 0 1px 0 rgba(0,0,0,.4);border-color: rgba(0,0,0,.1);
@@ -542,7 +536,7 @@ tfoot{
 .time-tracker-details .timetracker-calendar h4{
 	color: #3778c7;font-size:15px;margin-bottom: 0;position: relative;top: 7px;
 }
-.editfield,.deletefield,.submitfield,.savefield{
+.editfield,.deletefield{
 	border-radius: 3px;
     border: 1px solid #CAC7C7;
     color: #fff;
@@ -553,93 +547,3 @@ tfoot{
 .edit{
 	width: 75px;
 }
-.hours_input{
-	width: 105%;
-    padding: 2px;
-	
-}
-.hours_week{
-	width:10px;
-}
-.tab {
-    background-color: #FAFAFA;
-    margin: 0 auto;
-    width: 85%;
-}
-.tab_color{
-	 background-color: #FAFAFA !important;
-}
-label{
-	display: block;
-	font-size: 15px;
-	font-weight: normal;
-	line-height: 25px;
-	color: #3778c7;
-	cursor: pointer;
-}
-.time-tracker-table{
-    width: 12%
-}
-#myTab li a {text-decoration:none}
-
-input[type='number'] {
-    -moz-appearance:textfield;
-}
-.update{
-	color: #3778c7;
-    position: absolute;
-    width: 160px;
-    right: 250px;
-    padding: 15px 20px;
-    margin: 0 auto;
-    width: 160px;
-    background: #fafafa;
-    -moz-box-shadow: 0px 10px 20px 7px gray;
-    -o-box-shadow: 0px 10px 20px 7px gray;
-    -ms-box-shadow: 0px 10px 20px 7px gray;
-    border: 1px solid #C5C4C4;
-    border-bottom: 4px solid #818182;
-}
-.alert{
-	height: 32px;
-    margin-top: -26px;
-}
-
-.ng-invalid .hours_input {
-    border-color: red;
-    border-width: 2px;
-}
-.glyphicon-exclamation-sign::before {
-    content: "\e101";
-    border-radius: 4px;
-    border: 3px solid #CAC7C7;
-    color: #fff;
-    text-shadow: 0 1px 0 rgba(0,0,0,.4);
-    border-color: rgba(0,0,0,.1);
-    background-color: #408bd0;
-    margin-left: 3px;
-    margin-right: 7px;
-}
-.modal-content{
-	width: 51%;
-    height: 107px;
-    margin: 0 auto;
-	color:black;
-}
-.modal-header  {
-	display: none;
-}
-.modal-footer {
-	border-top: 0px;
-}
-/*input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-input[type="number"] {
-    -moz-appearance: textfield;
-}*/
-
-#week + #day {display:none;}
-

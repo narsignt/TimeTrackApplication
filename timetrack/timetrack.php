@@ -37,7 +37,6 @@ $obj = json_decode($jiveApiResponse, true);
 
 if (($obj[error][status] != 404) && ($flag != true)) {
     //check connection
-
     if ($conn) {
         $projectquery = "SELECT * FROM  `projects` where status =1 ORDER BY project_name";
         $projectexecution = mysql_query($projectquery) or die("Error while selecting projects " . mysql_error());
@@ -48,30 +47,14 @@ if (($obj[error][status] != 404) && ($flag != true)) {
                 $response["success"]     = 1;
                 $response["userdetails"] = array();
                 while ($row = mysql_fetch_array($userqueryexec)) {
+                    $userdetails              = array();
+                    $userdetails["user_id"]   = $row["user_id"];
+                    $userdetails["email_id"] = $row["email_id"];
+					$userdetails["u_name"] = $row["u_name"];
+                    $userdetails["role"]      = $row["role"];
                     $userrole                 = $row["role"];
                     $userid                   = $row["user_id"];
-                    if(strcmp($row["role"], "Admin") !== 0){
-                        $userdetails              = array();
-                        $userdetails["user_id"]   = $row["user_id"];
-                        $userdetails["email_id"] = $row["email_id"];
-                        $userdetails["u_name"] = $row["u_name"];
-                        $userdetails["role"]      = $row["role"];
-                        $userrole                 = $row["role"];
-                        $userid                   = $row["user_id"];
-                        array_push($response["userdetails"], $userdetails);
-                    }else{
-                        $adminquery = "(select * from users where user_id = '$user_id' ) union (select * from users where user_id != '$user_id')";
-                        $adminqueryexec = mysql_query($adminquery) or die("Error while selecting admin u information" . mysql_error());
-                        while ($row = mysql_fetch_array($adminqueryexec)) {
-                            $userdetails              = array();
-                            $userdetails["user_id"]   = $row["user_id"];
-                            $userdetails["email_id"] = $row["email_id"];
-                            $userdetails["u_name"] = $row["u_name"];
-                            $userdetails["role"]      = $row["role"];
-                            array_push($response["userdetails"], $userdetails);
-                        }
-                    }
-
+                    array_push($response["userdetails"], $userdetails);
                 }
                 $response["projectdetails"] = array();
                 while ($row = mysql_fetch_array($projectexecution)) {

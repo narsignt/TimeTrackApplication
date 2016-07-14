@@ -12,7 +12,7 @@ $description=$_POST['description'];
 $description=urldecode($description);
 $track_id=$_POST['track_id'];
 //$randomfield=$_GET['randomfield'];
-echo $user_id. " minutes".$minutes." min"." hour ".$hours;
+
 
 $exec_query;
 if(!empty($track_id)){
@@ -20,20 +20,20 @@ if(!empty($track_id)){
     $count_exec = mysql_query($count_sql) or die("Error while selecting user information" . mysql_error());
     $edit = mysql_fetch_array($count_exec);
     if($edit[0]==1){
-        $exec_query ="update  time_entry SET  project_id=$projectid, date='$date', hours='$hours', minutes='$minutes', description='$description',week_mode='0'  WHERE id=$track_id";
+        $exec_query ="update  time_entry SET user_id=$user_id, project_id=$projectid, date='$date', hours='$hours', minutes='$minutes', description='$description'  WHERE id=$track_id";
     }else{
-        $exec_query = "insert into time_entry (user_id, project_id, date, hours, minutes, description, week_mode)
-        values ($user_id,$projectid,'$date','$hours','$minutes','$description','0')";
+        $exec_query = "insert into time_entry (user_id, project_id, date, hours, minutes, description)
+        values ($user_id,$projectid,'$date','$hours','$minutes','$description')";
     }
 }else{
-    $exec_query = "insert into time_entry (user_id, project_id, date, hours, minutes, description, week_mode)
-            values ($user_id,$projectid,'$date','$hours','$minutes','$description', '0')";
+    $exec_query = "insert into time_entry (user_id, project_id, date, hours, minutes, description)
+            values ($user_id,$projectid,'$date','$hours','$minutes','$description')";
 }
 //echo $exec_query;
 //$insert_sql = "insert into time_entry (user_id, project_id, date, hours, minutes, description) values ($user_id,$projectid,'$date','$hours','$minutes','$description')";
 
 	if (mysql_query($exec_query)) {
-	    $userquery = "select user_id,email_id,u_name,country,empno,role from users where user_id = '$user_id' ";
+	    $userquery = "select user_id,email_id,u_name,role from users where user_id = '$user_id' ";
             $userqueryexec = mysql_query($userquery) or die("Error while selecting user information" . mysql_error());
             if(!empty($userqueryexec))
             {
@@ -57,7 +57,7 @@ if(!empty($track_id)){
                     {
                         //$timetrackquery = "select id,user_id,project_id,date,hours,minutes,description,updated_date from time_entry where user_id = '$userid' ";
                         //$timetrackquery = "select P.project_name, te.id,te.user_id,te.project_id,te.date,te.hours,te.minutes,te.description,te.updated_date FROM time_entry as te Join projects as P on P.project_id=te.project_id where te.user_id = '$userid' order by te.updated_date desc";
-                        $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
+                        $timetrackquery = "SELECT t . * , p.project_name, u.email_id, u.u_name FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id WHERE t.user_id ='$userid' ORDER BY t.updated_date DESC";
 						$timetrackexec = mysql_query($timetrackquery)  or die("Error while selecting time_entry " . mysql_error());
                         $response["timetrackdetails"]=array();
                         while($row = mysql_fetch_array($timetrackexec))
@@ -84,7 +84,7 @@ if(!empty($track_id)){
 					                    Join projects as P on P.project_id=te.project_id
 										Join users as u on u.user_id=te.user_id
 										group by te.user_id, te.id  order by te.updated_date desc";*/
-							$timetrackquery ="SELECT t . * , p.project_name, u.email_id, u.u_name, u.country, u.empno FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
+							$timetrackquery ="SELECT t . * , p.project_name, u.email_id, u.u_name FROM  `time_entry` t LEFT JOIN projects p ON t.`project_id` = p.project_id LEFT JOIN users u ON t.`user_id` = u.user_id ORDER BY t.updated_date DESC";
 						 $timetrackexec = mysql_query($timetrackquery)  or die("Error while selecting time_entry " . mysql_error());
                          $response["timetrackdetails"]=array();
                          while($row = mysql_fetch_array($timetrackexec))
@@ -115,7 +115,7 @@ if(!empty($track_id)){
     	// no userdetails found
             $response["success"] = 0;
             $response["message"] = "Failed to insert";
-            //echo json_encode($response);
+            echo json_encode($response);
 	}
 	echo json_encode($response);
 	
