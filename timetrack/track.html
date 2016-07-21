@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>iTalent Corporation</title>
+	<script src="scripts/angular1.5.js"></script>	
+	<script src="scripts/dirPagination.js"></script>
+	<script language="javascript" src="scripts/angular-animate.js"></script>
+    <script language="javascript" src="scripts/ui-bootstrap-tpls-0.14.3.js"></script>
+	<script language="JavaScript" src="scripts/angular-ui-router.min.js"></script>
+	<script src="scripts/angular-cookies.min.js"></script>
+	<script language="JavaScript" src="scripts/xlsx.core.min.js"></script>
+	<script language="JavaScript" src="scripts/alasql.min.js"></script>
+    <script src="scripts/jquery-1.9.1.js"></script>
+    <script src="scripts/ng-table.min.js"></script> 	
+	<script src="scripts/app.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+<body>
+<div class="main" ng-app="myapp" ng-controller="mycontroller"> <!--main start -->
+	<div class="header_block">
+    <div class="header_resize">
+     <div class="clr"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+ <div  class="content"><!-- content start -->
+    <div class="mainbar"> <!-- mainbar start -->
+      <div class="article" style="margin-top:-22px"> <!-- article start -->
+       <!-- <h2>Enter Daily Task Updates</h2> -->
+	  
+        <div class="clr"></div>
+		 <fieldset style="padding:15px;border:1px solid #D9D9D9;">
+		 <legend style="width:28%;border-bottom:0;">Enter Daily Task Updates</legend>
+		  <input type="hidden" ng-model="uid">
+		  <input type="hidden" ng-model="track_id">
+		  <input type="hidden" ng-model="uname">
+        <form  method="post" id="myform" name="myform" novalidate> <!-- form start -->
+          <ol>
+		    <li style="margin-top: 8px;">
+              <label for="projectName">Project Name <sup class="it-indicates">*</sup></label>
+			  <select style="height: 34px;margin-top: 0px;" class="form-control input-block-level" id="project_name" name="project_name" ng-model="newtrack.projectinfo" ng-options="obj.project_id as obj.project_name for obj in newtrack.projectDetails" required >
+			  <option value="">Select</option>
+              </select>
+
+				 <li style="float: left; position: relative;top: -30px;">
+				   <label for="date">Date<sup class="it-indicates">*</sup></label>
+				   <input class="form-control it-date" type="text" name="date" placeholder="yyyy-MM-dd"id="date" uib-datepicker-popup="{{dateformat}}" ng-model="newtrack.date" is-open="showdp" max-date="dtmax" />
+				   <span class="input-group-btn" style="top: -2px;display: inline-block;left: -8px;">
+					 <button type="button" class="btn btn-default"  ng-click="showcalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				  </span>
+				 </li>
+	 
+				  <li style="position: relative;top: -30px;">
+				  <label for="timings">No.of Hours<sup class="it-indicates">*</sup></label>
+				  <div style="float:left;width: 11%;">
+					  <select style="height: 34px;margin-top: 0px;" class="form-control it-opts" id="hours" name="hours" ng-model="newtrack.hours" style="max-height:32px;" required>
+						<option value="">HH</option>
+						<option>00</option>
+						<option>01</option>
+						<option>02</option>
+						<option>03</option>
+						<option>04</option>
+						<option>05</option>
+						<option>06</option>
+						<option>07</option>
+						<option>08</option>
+						<option>09</option>
+						<option>10</option>
+						<option>11</option>
+						<option>12</option>
+						<option>13</option>
+						<option>14</option>
+						<option>15</option>
+						<option>16</option>
+						<option>17</option>
+						<option>18</option>
+						<option>19</option>
+						<option>20</option>
+						<option>21</option>
+						<option>22</option>
+						<option>23</option>
+					  </select>
+				  </div>
+				  <div style="float:left">
+					  <select style="height: 34px;margin-top: 0px;" class="form-control it-opts" id="minutes" name="minutes" ng-model="newtrack.minutes">
+						<option value="">MM</option>
+						<option>00</option>
+						<option>05</option>
+						<option>10</option>
+						<option>15</option>
+						<option>20</option>
+						<option>25</option>
+						<option>30</option>
+						<option>35</option>
+						<option>40</option>
+						<option>45</option>
+						<option>50</option>
+						<option>55</option>
+					  </select> 
+				  </div>
+				</li>
+
+			  <div style="clear:both"></div>
+			  <div ng-show="isadmin" style=" margin-top:-19px;float:left;">
+				<input class="track-project" type="button" id="addproject" ng-click="addproject()" value="Add Project" />
+			   <div  id="addprojectdiv" ng-show = "isprojecttext">
+			   <input class="form-control" type="text" no-special-char ng-model="projectname" style="float:left;width:200px" />
+			   <input class="track-submit" type="submit" id="projectsubmit" ng-click="projectsubmit()" style="float:left;" value="Go"/>
+			   </div>
+			  <input class="track-delete"  type="button" id="deleteproject" ng-click="deleteproject()" value="Delete Project" />
+				</div>
+			  <div style="clear:both"></div>
+            </li>
+ 
+            <li class="time-tracker-desc">
+              <label for="description">Task Description<sup class="it-indicates">*</sup></label>
+              <textarea class="form-control" placeholder="Please enter your task details..." id="description" name="description" rows="2" cols="50"ng-model="newtrack.description" required></textarea>
+			  <div style="clear:both"></div>
+            </li>	
+            <li class="time-tracker-btns">
+              <input type="hidden" ng-model="newtrack.id">
+			  <input class="it-btns" type="submit" value="Submit" ng-click="submit()" ng-disabled="myform.$invalid"style="width:87px;float: left;margin-left: 22px;margin-right: 5px;">
+			  <input class="it-btns" type="Reset" ng-click="reset()"style="width: 94px;float: left;"/>
+              <div class="clr"></div>
+            </li>
+          </ol>
+        </form> <!--form close -->
+		</fieldset>
+      </div> <!--article end -->
+    </div> <!--mainbar end -->
+	<div class="mainbar"> <!-- mainbar start -->
+	<form  novalidate>
+	 <fieldset style="padding:15px;border:1px solid #D9D9D9;margin:15px;">
+	  <legend style="width:23%;border-bottom:0">List Of Task Updates</legend> 
+	 <div class="article" id="exportable" style="margin-bottom: -23px;"> <!-- article start -->
+		<!--<h2>List Of Task Updates</h2>-->		
+   <div class="form-group time-tracker-details"style="margin-top:-32px;">
+     <div class="timetracker-calendar">
+		<h4>From Date</h4>
+		<p class="input-group">
+		  <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="status1.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+		  <span class="input-group-btn" style="top: 4px;">
+			  <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		  </span>
+		</p>
+	  </div>
+	  <div class="timetracker-calendar">
+		 <h4>To Date</h4>
+		 <p class="input-group">
+		  <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="status2.opened" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+		  <span class="input-group-btn" style="top: 4px;">
+			  <button type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		  </span>
+		 </p>
+	  </div>    
+	    <input type="button" id="userdetails" ng-click="getBtDates(dt1,dt2,userdetails)"  value="Go" style="height: 33px;"/>
+		<input type="button" id="exportData" ng-click="exportData()" value="Download data"style="height: 33px;"/><i class="glyphicon glyphicon-download-alt"></i>
+		<div style="position: relative;top: 36px;width: 32%;float: right;left:7px">
+		   <input type="text" ng-model="search" class="form-control" style="position: relative;margin-top: 7px;" placeholder="Search"ng-change="searchTags()"/>
+		   <i class="glyphicon glyphicon-search searchIcon" ></i> 
+		   <div style="clear:both"></div>
+		</div>
+	</div>
+	<div style="clear:both"></div>
+		 <table class="table table-striped table-hover" ng-table="tableParams">
+			<thead>
+			 <tr>
+				 <th ng-click="sort('date')">Date
+					 <span class="glyphicon sort-icon" ng-show="sortKey=='date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				 </th>
+				 <th ng-click="sort('project_name')">Project Name
+					 <span class="glyphicon sort-icon" ng-show="sortKey=='project_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				 </th>
+				 <th ng-click="sort('hours')">Hours
+					 <span class="glyphicon sort-icon" ng-show="sortKey=='hours'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				 </th>
+				 <th ng-click="sort('minutes')">Minutes
+					 <span class="glyphicon sort-icon" ng-show="sortKey=='minutes'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				 </th>
+				 <th ng-if="isadmin" ng-click="sort('employee_name')">User Name
+					 <span class="glyphicon sort-icon" ng-show="sortKey=='employee_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				 </th>
+				 <th ng-click="sort('description')">Description
+					 <span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				 </th>
+				   <th class="edit"></th>
+			  </tr>
+			 </thead>
+			  <tbody>
+				 <tr dir-paginate="user in userdetails|orderBy:sortKey:reverse|filter:search|itemsPerPage:7">
+					 <td>{{user.date}}</td>
+					 <td>{{user.project_name}}</td>
+					 <td>{{user.hours}}</td>
+					 <td ng-show='user.minutes !== undefined'>{{user.minutes}}</td>
+					 <td ng-if="isadmin">{{user.u_name}}</td>
+					 <td>{{user.description}}</td>
+					 <td>
+					 <center>
+						<button type="button" title="Edit" class="editfield" ng-click="edit(user)"><span class="glyphicon glyphicon-edit"></span></button> 
+						<button type="button" title="Delete" class="deletefield" ng-click="delete(user)"><span class="glyphicon glyphicon-trash"></span></button>
+					</center>
+					</td>
+				 </tr>
+			  </tbody>
+			 <!--<tfoot>
+                <tr>
+                    <td></td>
+					<td></td>
+                    <td>{{userdetails|sumByKey:'hours'}}</td>
+                    <td>{{userdetails|sumByKey:'minutes'}}</td>
+					<td ng-if="isadmin"></td>
+					<td></td>
+                </tr>
+            </tfoot>-->
+		 </table>
+
+		 <dir-pagination-controls
+				 max-size="7"
+				 direction-links="true"
+				 boundary-links="true" >
+		 </dir-pagination-controls>
+	 </div> <!-- article end -->
+	</fieldset>
+	</form>
+    </div> <!-- mainbar end -->
+	<div class="clr"></div>
+ </div><!-- content end-->
+</div> <!-- main end-->
+</body>
+</html>

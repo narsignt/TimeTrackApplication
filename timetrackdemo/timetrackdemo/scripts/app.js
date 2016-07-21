@@ -86,7 +86,7 @@ app.service('TaskService',function($http, $q, $log){
             return totaltimetrack;
         }
     }
-    this.saveNewTrack = function(newtrack,description,user_id,sessionid){
+    this.saveNewTrack = function(newtrack,description,user_id,sessionid,cntrl){
         //console.log(user_id+"dd");
         var deferred = $q.defer();
         var dataObj = {
@@ -98,17 +98,9 @@ app.service('TaskService',function($http, $q, $log){
                 "track_id": newtrack.track_id,
                 "sessionid":sessionid,
                 'user_id':user_id,
+				"cntrl":cntrl,
+				
         };
-        //$http.get('/timetrackdemo2/timetrackInsert.php', dataObj).
-        // $http.post('/timetrackdemo2/timetrackInsert.php?hours='+newtrack.hours+'&user_id='+user_id+'&date='+newtrack.date+'&projectid='+newtrack.projectinfo+'&minutes='+newtrack.minutes+'&description='+description+'&track_id='+newtrack.track_id+'&sessionid='+sessionid).
-        // success(function(response, status, headers, config) {
-        //     deferred.resolve({
-        //         response: response
-        //     });
-        // })
-        // .error(function(data, status, headers, config) {
-        //     alert( "failure message: " + JSON.stringify({data: data}));
-        // });
         $http({
             method: 'POST',
             url: '/timetrackdemo/timetrackInsert.php',
@@ -135,7 +127,8 @@ app.service('TaskService',function($http, $q, $log){
                 "description": description,
                 "track_id": newtrack.track_id,
                 "sessionid":sessionid,
-                'user_id':user_id
+                'user_id':user_id,
+				"cntrl":cntrl
             }
         })
             .success(function(response, status, headers, config) {
@@ -151,8 +144,8 @@ app.service('TaskService',function($http, $q, $log){
     }
 
 
-    this.timetrackInfo= function(uid,uname,UserName,givenName,lastName,EmpNumber,Country){
-        var url = "/timetrackdemo/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&givenName="+givenName+"&familyName="+lastName+"&EmpNumber="+EmpNumber+"&Country="+Country;
+    this.timetrackInfo= function(uid,uname,UserName,givenName,lastName,EmpNumber,Country,cntrl){
+        var url = "/timetrackdemo/timetrack.php?user_id="+uid+"&uname="+uname+"&UserName="+UserName+"&givenName="+givenName+"&familyName="+lastName+"&EmpNumber="+EmpNumber+"&Country="+Country+"&cntrl="+cntrl;
         //console.log("url "+url);
         var deferred = $q.defer();
         $http.get(url)
@@ -170,7 +163,7 @@ app.service('TaskService',function($http, $q, $log){
             });
         return deferred.promise;
     }
-	this.weektrackInfo= function(weeks, user_id,isadmin,sessionid){
+	this.weektrackInfo= function(weeks, user_id,isadmin,sessionid,cntrl){
 		//var url = "/timetrack/update_week.php?data="+weeks+"&user_id="+user_id+"&isadmin="+isadmin;
 		////console.log("week:"+url);
 		 var deferred = $q.defer();
@@ -195,7 +188,8 @@ app.service('TaskService',function($http, $q, $log){
                 'data': weeks,
 				'user_id': user_id,
 				'isadmin': isadmin,
-                'sessionid': sessionid
+                'sessionid': sessionid,
+				'cntrl':cntrl
             }
         })
             .success(function(response){
@@ -271,7 +265,7 @@ app.service('TaskService',function($http, $q, $log){
         return this.projectDetails;
     }
 
-    this.addprojectName = function(projectname,sessionid){
+    this.addprojectName = function(projectname,sessionid,cntrl){
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -287,7 +281,8 @@ app.service('TaskService',function($http, $q, $log){
             },
             data: {
                 'project_name': projectname,
-                'sessionid' : sessionid
+                'sessionid' : sessionid,
+				'cntrl': cntrl
             }
         })
             .success(function(response, status, headers, config) {
@@ -302,7 +297,7 @@ app.service('TaskService',function($http, $q, $log){
 
     }
 
-    this.deleteprojectName = function(projectid,sessionid,project_name){
+    this.deleteprojectName = function(projectid,sessionid,project_name,cntrl){
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -319,7 +314,8 @@ app.service('TaskService',function($http, $q, $log){
             data: {
                 'project_id': projectid,
                 'sessionid' : sessionid,
-                'project_name' : project_name
+                'project_name' : project_name,
+				'cntrl': cntrl
             }
         })
             .success(function(response, status, headers, config) {
@@ -367,10 +363,27 @@ app.service('TaskService',function($http, $q, $log){
             });
         return deferred.promise;
     }
+	// this.getDownloadData = function(user_id,start_date,end_date,mode,username,isadmin){
+		// var url= "/timetrackdemo/download_details.php?user_id="+user_id+"&start_date="+start_date+"&end_date="+end_date+"&mode="+mode+"&username="+username+"&isadmin="+isadmin;
+		// console.log(url);
+		// var deferred = $q.defer();
+		   // $http.get(url)
+            // .success(function(response){
+                // deferred.resolve({
+                    // downloaddetails: response
+
+                // });
+            // })
+            // .error(function(response){
+                // deferred.reject(response);
+                // $log.error(response);
+            // });
+			// return deferred.promise;
+        
+	// }
  //Added by sunil for get session log data
  this.getAuditLog = function(start_date,end_date){
-   // console.log(start_date);
-    //console.log(end_date);
+
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -437,7 +450,7 @@ app.service('TaskService',function($http, $q, $log){
         return result;
     };
 
-    this.individualweek = function(week,date,isadmin,weeklyInfo,message){
+     this.individualweek = function(week,date,isadmin,weeklyInfo,message){
         weeks = [];
         for (var j = 0; j < 8; j++) {
             if (j == 0) {
@@ -578,7 +591,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 uname:details.userdetails.uname,
 				UserName:details.userdetails.UserName,
                 EmpNumber:details.userdetails.EmpNumber,
-                Country:details.userdetails.Country
+                Country:details.userdetails.Country,
+				cntrl:details.userdetails.cntrl
             }
         };
         //console.log($rootScope.globals.currentUser);
@@ -586,25 +600,20 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 
         $scope.current_month = moment(currentdate).format("MMMM");
         $scope.current_year = moment(currentdate).format("YYYY");
-		//$scope.showDialog = true;
 
-        // Create Base64 Object
         var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
         $scope.uid = Base64.decode(details.userdetails.user_id);
 
         $scope.uname = Base64.decode(details.userdetails.uname);
 		$scope.UserName = Base64.decode(details.userdetails.UserName);
-
-        //$scope.uid = details.userdetails.uid;
-        //$scope.uname = details.userdetails.uname;
+		$scope.cntrl = details.userdetails.cntrl;
 
         TaskService.getAuditLog(moment(new Date()).subtract(1,'days').format('YYYY-MM-DD'),moment(new Date()).format('YYYY-MM-DD')).then(function(auditDetails){
             $scope.auditlogdetails=auditDetails.auditResponse.sessionarray;
         });
-        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.givenName,details.userdetails.familyName,details.userdetails.EmpNumber,details.userdetails.Country).then(function(responseDetails){
-           // console.log(responseDetails);
-		   //$scope.newtrack.projectDetails = details.projectdetails
-            if(responseDetails.totalresponse.error == "undefined"){
+        TaskService.timetrackInfo(details.userdetails.user_id,details.userdetails.uname,details.userdetails.UserName,details.userdetails.givenName,details.userdetails.familyName,details.userdetails.EmpNumber,details.userdetails.Country,details.userdetails.cntrl).then(function(responseDetails){
+
+            if(responseDetails.totalresponse.error == "undefined" || responseDetails.totalresponse.message == "Token Mismatched" ){
                 $window.location.href = 'https://italent.jiveon.com/welcome';
             }else{
 
@@ -657,18 +666,12 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     candidate={"userName":responseDetails.userdetails[0].email_id,"diableForAdmin":false,"data":month};
                     //candidate[$scope.wuname]=month;
                     candidates.push(candidate);
-                    //console.log(candidate);
-                     //console.log(candidates);
-                    //  var name=$scope.wuname;
-                    // candidate[name].push(month);
-                    //console.log(candidates);
+               
                     $scope.month = candidates;
-                    //console.log($scope.month);
+                   
                     });
 
-                    /*document.getElementById("addproject").style.display = "none";
-                     document.getElementById("projectsubmit").style.display = "none";
-                     document.getElementById("deleteproject").style.display = "none";*/
+                    
 
                 }else{
                     $scope.isadmin = true;
@@ -705,7 +708,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 		}
         if(data.day.time < 0 || data.day.time > 24){
              data.day.time = 0;
-            alert("Hours per day cannot exceed 24");
+            alert("Please enter a numerical value for all days.  If you did not work on a particulary day, please enter a zero");
 			//$scope.hoursmsg = "Hours must be less than 24"; 
 			//$scope.showDialog = false;
             
@@ -779,11 +782,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     candidate={"userName": $scope.wuname,"diableForAdmin":false,"data":month};
                     //candidate[$scope.wuname]=month;
                     candidates.push(candidate);
-                    //console.log(candidate);
-                     //console.log(candidates);
-                    //  var name=$scope.wuname;
-                    // candidate[name].push(month);
-                    //console.log(candidates);
+                    
                     $scope.month = candidates;
                     //console.log($scope.month);
                 }else
@@ -884,8 +883,11 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 uid = $scope.uid;
             }
             //console.log();
-            TaskService.weektrackInfo($scope.data, uid, $scope.isadmin, $scope.sessionid).then(function (details) {
-                if (details.weeklytrackdetails.message === "Updated Successfully") {
+            TaskService.weektrackInfo($scope.data, uid, $scope.isadmin, $scope.sessionid,$scope.cntrl).then(function (details) {
+               if(details.weeklytrackdetails.message == "Token Mismatched"){
+				  $window.location.href = 'https://italent.jiveon.com/welcome'; 
+			   }else{
+			   if (details.weeklytrackdetails.message === "Updated Successfully") {
                     $scope.weekmsg = "Updated Successfully";
                     $scope.showWeekDialog = true;
                     $scope.userdetails = "";
@@ -899,7 +901,7 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                     $scope.showWeekDialog = true;
                    // $confirm({text: 'Server is down. Please try later.',  ok: 'Yes'});
                 }
-
+			   }
             });
         }else{
             //remove blur
@@ -927,8 +929,8 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 
     $scope.submit = function(){
         if($scope.newtrack.date !=null && $scope.newtrack.description !=null && $scope.newtrack.hours !=null && $scope.newtrack.projectinfo !=null){
-            $scope.showDialog = true;
-			$scope.submitmsg = "Submitted Successfully";
+            // $scope.showDialog = true;
+			// $scope.submitmsg = "Submitted Successfully";
 			//alert("Submitted Successfully");
 			description=encodeURIComponent($scope.newtrack.description);
             if(angular.isUndefined($scope.newtrack.minutes)){
@@ -937,8 +939,10 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
             $scope.newtrack.date = $filter('date')($scope.newtrack.date, "yyyy-MM-dd");
             //console.log($scope.uid);
 
-            TaskService.saveNewTrack($scope.newtrack,description,$scope.uid,$scope.sessionid).then(function(details){
-                //$scope.userdetails = TaskService.list(details.response.timetrackdetails,details.response.userdetails);
+            TaskService.saveNewTrack($scope.newtrack,description,$scope.uid,$scope.sessionid,$scope.cntrl).then(function(details){
+               if(details.response.message == "Token Mismatched" ){
+                $window.location.href = 'https://italent.jiveon.com/welcome';
+            }else{
                 $scope.userdetails = details.response.timetrackdetails;
 				$scope.entire_data = $scope.userdetails;
 				//console.log("submit"+$scope.entire_data.length);
@@ -950,16 +954,12 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
                 $scope.newtrack.date = "";
                 $scope.newtrack ={};
                 $scope.newtrack.projectDetails = TaskService.plist();
+			}
             });
 
         }
     };
-	/*$scope.refreshdata = function () {
-		$scope.userdetails = userdetails;
-
-	$scope.tableParams.total(userdetails.length);
-    $scope.tableParams.reload();
-	}*/
+	
     $scope.edit = function(trackdetails){
         $scope.shouldBeOpen = true;
 		if(trackdetails.hours.charAt(0) == "0"){
@@ -1036,22 +1036,29 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
 			
             $confirm({text: 'Are you sure you want to delete this project?', ok: 'Yes', cancel: 'No'})
                 .then(function () {
-                    TaskService.deleteprojectName($scope.newtrack.projectinfo, $scope.sessionid, $scope.projectname).then(function (details) {
-                        $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
+                    TaskService.deleteprojectName($scope.newtrack.projectinfo, $scope.sessionid, $scope.projectname,$scope.cntrl).then(function (details) {
+					if(details.projectdetails.message == "Token Mismatched" ){
+					$window.location.href = 'https://italent.jiveon.com/welcome';
+					}else{
+					  $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
+					}
                     });
                 });
             }else{
                 alert("Please select the project to delete");
-				//$scope.deleteDialog = true;
-				//$scope.deletemsg = "Please select the Project to delete";
+				
             }
     };
 	$scope.projectsubmit = function(){
         if(angular.isDefined($scope.projectname)) {
             if($scope.projectname.length>0) {
-                TaskService.addprojectName($scope.projectname,$scope.sessionid).then(function (details) {
+                TaskService.addprojectName($scope.projectname,$scope.sessionid,$scope.cntrl).then(function (details) {
+					if(details.projectdetails.message == "Token Mismatched" ){
+					$window.location.href = 'https://italent.jiveon.com/welcome';
+				}else{
                     $scope.newtrack.projectDetails = TaskService.projectList(details.projectdetails);
                     $scope.projectname = '';
+				}
                 });
                 $scope.isprojecttext = false;
             }else{
@@ -1068,53 +1075,26 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
         $scope.newtrack ={};
         $scope.newtrack.projectDetails = TaskService.plist();
     };
-	 $scope.exportData = function () {
-		 start_date = $scope.dt1;
-		 end_date = $scope.dt2;
-		   //if (!$scope.isadmin){
-            // var UserName = $scope.UserName;
-         //}
-		 //var mode="day";
-		 var url='/timetrackdemo/download_details.php?user_id='+$scope.uid+'&start_date='+moment(start_date).format("YYYY-MM-DD")+'&end_date='+moment(end_date).format("YYYY-MM-DD")+'&mode=day'+'&username='+$scope.UserName;
-		//window.location=url;
-		//$location.href=url;
-		$window.location.href=url;
-        // var extexelfileName = "timetrack_Day.xls";
-       
-        // console.log(userdetails);
-		// if(userdetails.length > 0){
-        //alasql.promise('SELECT * INTO XLS("timetrack.xls",{headers:true}) FROM HTML("#exportable", {headers:true})');
-            //alasql('SELECT empno as EmployeeNumber, first_name as FirstName,last_name as LastName,country as Country,email_id as email, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?',[userdetails]);
+	 
+   $scope.exportData = function (userdetails) {
+       var extexelfileName = "timetrack_Day.xls";
+        if (!$scope.isadmin){
+			extexelfileName = "TimeTrack_Day_" + $scope.UserName + ".xls";
+        }
+       console.log(userdetails);
+		if(userdetails.length > 0){
+        
+          alasql('SELECT empno as EmployeeNumber, first_name as FirstName,last_name as LastName,country as Country,email_id as email, project_name as ProjectName,date as Date, hours as Hours, description as Description, updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?',[userdetails]);
 
-        // }else{
-			// //console.log(userdetails.length);
-			// alert("nodata");
-		// }
-   };
+        }else{
+		 //console.log(userdetails.length);
+			 alert("nodata");
+		}
+    };
     $scope.getBtDates = function(dt1,dt2,userdetails){
         //filterBtDates
         $scope.shouldBeOpen = false;
         $scope.userdetails = TaskService.filterBtDates(dt1,dt2,userdetails);
-
-   /*     var df = parseDate(dt1);
-        var dt = parseDate(dt2);
-        var result = [];
-		 if(dt1 > dt2){
-              //alert("To Date should be greater than From date"); 
-				$scope.alertDialog = true;
-            // $scope.datemsg = "To Date should be greater than From date";
-			  
-        }
-        for (var i = 0; i < userdetails.length; i++) {
-            var date_bet = parseDate(userdetails[i].date);
-
-            if (date_bet >= df && dt >= date_bet) {
-                result.push(userdetails[i]);
-            }
-			
-        }
-        $scope.userdetails = result;*/
-
     };
     $scope.newtrack={};
     $scope.newtrack.projectDetails=[];
@@ -1148,8 +1128,6 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     $scope.today = function() {
         $scope.dt2 = moment(new Date()).format('YYYY-MM-DD');
         $scope.dt1 = moment($scope.dt2).subtract(1,'months').format('YYYY-MM-DD');
-        /*var previousMonth = new Date($scope.dt2);
-        $scope.dt1=previousMonth.setMonth($scope.dt2.getMonth()-1);*/
     };
     $scope.today();
     $scope.toggleMin = function() {
@@ -1187,39 +1165,29 @@ app.controller("mycontroller",['$rootScope','$location','$scope','$http','TaskSe
     $scope.status2 = {
         opened: false
     };
-    $scope.downloadData = function(){
-        $scope.selecteduser = $("#username option:selected").html();
+
+	  $scope.downloadData = function(){
+         $scope.selecteduser = $("#username option:selected").html();
         lastDayOfLastWeek = moment($scope.admintodate).endOf('week').toDate();
         startDayOfFirstWeek = moment($scope.adminfromdate).startOf('week').toDate();
-		//var mode="week";
-		// var extexelfileName="TimeTrack_Week.xls";
-		var UserName='';
-                 if ($scope.wuname =="alluser"){
-                    UserName = "AllUsers";
+           TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
+
+                 var extexelfileName="TimeTrack_Week.xls";
+               if ($scope.wuname =="alluser"){
+                     extexelfileName ="TimeTrack_Week_AllUsers.xls";
                  }else if ($scope.wuname =="indianuser"){
-                     UserName = "IndiaUsers";
-					}else if ($scope.wuname =="ususer"){
-						UserName = "USAUsers";
+                     extexelfileName ="TimeTrack_Week_IndiaUsers.xls";
+               }else if ($scope.wuname =="ususer"){
+                   extexelfileName ="TimeTrack_Week_USAUsers.xls";
                  } else {
-                    UserName =  $scope.selecteduser;
-                }
-		var url='/timetrackdemo/download_details.php?user_id='+$scope.wuname+'&start_date='+moment(startDayOfFirstWeek).format("YYYY-MM-DD")+'&end_date='+moment(lastDayOfLastWeek).format("YYYY-MM-DD")+'&mode=week'+'&username='+UserName;
-		$window.location.href=url;
-            //TaskService.getMonthlyTrackInfo(moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"), $scope.wuname).then(function (details) {
-			//TaskService.getDownloadWeekData($scope.wuname,moment(startDayOfFirstWeek).format("YYYY-MM-DD"), moment(lastDayOfLastWeek).format("YYYY-MM-DD"));	
-                // console.log(lastDayOfLastWeek);
-                // console.log(startDayOfFirstWeek);
-                console.log(details.weektrackdetails.weekdetailsarray);
-                 
-            
-                
-               // alasql('SELECT empno as EmployeeNumber, first_name as FirstName, last_name as LastName, email_id as email, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
-                //alasql('SELECT empno as EmployeeNumber, u_name as UserName, email_id as EmailId, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("weektrack_Week_.xls",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
+                    extexelfileName = "TimeTrack_Week_" + $scope.selecteduser+ ".xls";
+                 }
 
-            //});
-        //alasql('SELECT uid,uname,email_id,date,hours INTO XLS("weektrack.xls",{headers:true}) FROM  ?',[downloadDetailsArray]);
-
-    };
+                 alasql('SELECT empno as EmployeeNumber, first_name as FirstName, last_name as LastName, email_id as email, country as Country, project_name as ProjectName, date as Date,hours as Hours,updated_date as UpdatedDate INTO XLS("' + extexelfileName + '",{headers:true}) FROM ?', [details.weektrackdetails.weekdetailsarray]);
+             
+             });
+        
+     };
 }]);
 
 app.directive('numbersOnly', function () {

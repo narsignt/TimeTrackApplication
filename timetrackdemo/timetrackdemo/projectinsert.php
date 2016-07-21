@@ -4,8 +4,17 @@ include "audi_session.php";
 
 $sessionid = $_REQUEST['sessionid'];
 $project_name = $_POST['project_name'];
-
-// Check connection
+$cntrl=$_POST['cntrl'];
+$cntrl=base64_decode($cntrl);
+$exec_query;
+/* cntrl is used to authenticate from hacker */
+if($cntrl != "italent is the best"){
+	$response["error"]     = 1;
+	$response["message"] = "Token Mismatched";
+	echo json_encode($response);
+	
+}else{
+/* Check connection*/
 if (!$conn) {
     die("Connection failed: " . mysql_connect_error());
 }else{
@@ -16,13 +25,16 @@ if (!$conn) {
     $data=mysql_fetch_assoc($countquery);
     $count=$data['total'];
     if(intval($count) > 0){
+		/*updating the project name*/
         $projectquery = "UPDATE projects SET status=1 WHERE project_name = '$project_name'";
     }else{
+		/*inserting new project name*/
         $projectquery = "insert into projects (project_name, status ) values ('$project_name', 1)";
     }
      if (mysql_query($projectquery)) {
             saveSessionUsersAudit($sessionid,"Project Added","Day Tab", $project_name);
-            $lastrecord = "SELECT * FROM projects where status=1 ORDER BY project_name";
+			/*showing project names*/
+            $lastrecord = "SELECT project_id,project_name FROM projects where status=1 ORDER BY project_name";
             $result = mysql_query($lastrecord) or die("Error in Selecting " . mysql_error());
             while($row =mysql_fetch_assoc($result))
                 {
@@ -30,6 +42,7 @@ if (!$conn) {
                 }
             $response["success"] = 1;
             $response["message"] = "Inserted Successfully";
+			/*inserting all project names into an array*/
             $response["projectdetails"] = $projectarray;
             mysql_free_result($result);
         }else{
@@ -45,5 +58,7 @@ if (!$conn) {
          }
          mysql_free_result($countquery);
 }
+}
+/*closing db connection*/
 mysql_close($conn);
 ?>

@@ -1,7 +1,14 @@
 <?php
+include_once "attribute.php";
 global $conn;
-   $conn=mysql_connect ("68.178.217.5", "italentnewdb", "Q!w2e3r4") or die ('System cannot connect to the database because: ' . mysql_error());
-   mysql_select_db ("italentnewdb");
+//echo $ipaddress;
+//echo $dbusername;
+//echo $dbpassword;
+//echo $dbname;
+   $conn=mysql_connect ($ipaddress, $dbusername, $dbpassword) or die ('System cannot connect to the database because: ' . mysql_error());
+   mysql_select_db ($dbname);
    if($conn<0)
-   echo "connection could not be established";
+   echo "connection could not be established"; 
+
+
 ?>
